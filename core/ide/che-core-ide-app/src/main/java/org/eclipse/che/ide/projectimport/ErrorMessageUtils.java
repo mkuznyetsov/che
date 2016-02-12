@@ -10,10 +10,8 @@
  *******************************************************************************/
 package org.eclipse.che.ide.projectimport;
 
-import org.eclipse.che.api.core.rest.shared.dto.ServiceError;
 import org.eclipse.che.ide.commons.exception.JobNotFoundException;
 import org.eclipse.che.ide.commons.exception.UnauthorizedException;
-import org.eclipse.che.ide.dto.DtoFactory;
 
 /**
  * The class contains business logic which allows define type of error.
@@ -21,8 +19,6 @@ import org.eclipse.che.ide.dto.DtoFactory;
  * @author Dmitry Shnurenko
  */
 public class ErrorMessageUtils {
-
-    private static DtoFactory dtoFactory = new DtoFactory();
 
     private ErrorMessageUtils() {
         throw new UnsupportedOperationException("You can not create instance of Util class.");
@@ -40,11 +36,17 @@ public class ErrorMessageUtils {
             return "Project import failed";
         } else if (exception instanceof UnauthorizedException) {
             UnauthorizedException unauthorizedException = (UnauthorizedException)exception;
-            ServiceError serverError = dtoFactory.createDtoFromJson(unauthorizedException.getResponse().getText(),
-                                                                    ServiceError.class);
-            return serverError.getMessage();
+            return getMessageFromJSON(unauthorizedException.getResponse().getText());
         } else {
-            return dtoFactory.createDtoFromJson(exception.getMessage(), ServiceError.class).getMessage();
+            return getMessageFromJSON(exception.getMessage());
         }
     }
+
+    private static native String getMessageFromJSON(String json) /*-{
+        try {
+            return JSON.parse(json).message;
+        } catch (e) {
+            return "";
+        }
+    }-*/;
 }

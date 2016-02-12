@@ -98,9 +98,9 @@ public class ProjectImporter extends AbstractImporter {
         }).catchError(new Operation<PromiseError>() {
             @Override
             public void apply(PromiseError exception) throws OperationException {
-                subscriber.onFailure(exception.getMessage());
                 String errorMessage = ErrorMessageUtils.getErrorMessage(exception.getCause());
-                if (errorMessage.equals("Unable get private ssh key")) {
+                subscriber.onFailure(errorMessage);
+                if ("Unable get private ssh key".equals(errorMessage)) {
                     callback.onFailure(new Exception(localizationConstant.importProjectMessageUnableGetSshKey()));
                     return;
                 }
