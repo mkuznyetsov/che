@@ -34,4 +34,10 @@ public interface CredentialsProvider {
      * @return return true if current provider can provide credentials for the given url.
      */
     boolean canProvideCredentials(String url);
+
+    /**
+     * @return additional information about given provider
+     *
+     */
+    ProviderInfo getProviderInfo();
 }

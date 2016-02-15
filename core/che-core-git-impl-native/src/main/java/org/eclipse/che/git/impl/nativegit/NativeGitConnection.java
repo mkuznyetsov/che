@@ -20,6 +20,7 @@ import org.eclipse.che.api.git.GitConnection;
 import org.eclipse.che.api.git.GitException;
 import org.eclipse.che.api.git.GitUserResolver;
 import org.eclipse.che.api.git.LogPage;
+import org.eclipse.che.api.git.ProviderInfo;
 import org.eclipse.che.api.git.UserCredential;
 import org.eclipse.che.api.git.shared.AddRequest;
 import org.eclipse.che.api.git.shared.Branch;
@@ -85,8 +86,10 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -582,7 +585,13 @@ public class NativeGitConnection implements GitConnection {
             if (!isOperationNeedAuth(gitEx.getMessage())) {
                 throw gitEx;
             }
-            throw new UnauthorizedException(gitEx.getMessage());
+            ProviderInfo info = credentialsLoader.getProviderInfo(command.getRemoteUri());
+            Map<String, String> attributes = new HashMap<>();
+            if (info != null) {
+                attributes.put("providerId", info.getProviderId());
+                attributes.put("authenticateUrl", info.getAuthenticateUrl());
+            }
+            throw new UnauthorizedException(gitEx.getMessage(), 32080, attributes);
         }
     }
 
