@@ -22,8 +22,8 @@
   <div class="projects-list-projects-filter-workspace-label">Filter workspaces:</div>
   <div flex="60" layout="row" layout-align="start center" layout-wrap>
     <div class="projects-list-projects-select-workspace" ng-repeat="workspace in listProjectsCtrl.workspaces">
-      <md-checkbox ng-model="listProjectsCtrl.filtersWorkspaceSelected[workspace.workspaceReference.id]"
-                   aria-label="Workspace {{workspace.workspaceReference.name}}">{{workspace.workspaceReference.name}}
+      <md-checkbox ng-model="listProjectsCtrl.filtersWorkspaceSelected[workspace.id]"
+                   aria-label="Workspace {{workspace.name}}">{{workspace.name}}
       </md-checkbox>
     </div>
   </div>

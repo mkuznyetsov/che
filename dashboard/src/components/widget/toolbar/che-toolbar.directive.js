@@ -107,9 +107,10 @@ export class CheToolbar {
       + '<md-icon md-font-icon=\"fa fa-chevron-left\"></md-icon>'
       + '</a>';
     }
-
+   
+    let alignment = breadcrumbHref ? 'center' : 'left';
     template += '<div layout=\"row\" flex layout-align=\"start center\" class=\"che-toolbar-header\">'
-    + '<div class=\"che-toolbar-title\" id=\"'+ id +'\" flex layout=\"row\" layout-align=\"center center\">'
+    + '<div class=\"che-toolbar-title\" id=\"'+ id +'\" flex layout=\"row\" layout-align=\"' + alignment +' center\">'
     + '<span class=\"che-toolbar-title-label\">'
     + title + '</span><span class=\"che-toolbar-title-icons\">';
 
