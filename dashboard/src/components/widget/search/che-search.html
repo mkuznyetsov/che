@@ -1,4 +1,10 @@
-<div flex class="search-component">
-  <input class="search-input" type="text" name="{{inputName}}" ng-trim="false" data-ng-model="valueModel" placeholder="{{placeholder}}">
-  <md-icon md-font-icon="fa fa-search"></md-icon>
+<div flex layout="row">
+  <md-icon md-font-icon="fa fa-search" class="search-icon" ng-click="cheSearchController.show()"
+           ng-class="{'che-toolbar-control-button' : !cheSearchController.isShown}"></md-icon>
+  <div flex layout="row" ng-class="{'move-out': cheSearchController.isShown, 'move-in': !cheSearchController.isShown}"
+       class="search-component">
+    <input class="search-input" type="text" name="{{cheSearchController.inputName}}" ng-trim="false"
+           data-ng-model="cheSearchController.valueModel" placeholder="{{cheSearchController.placeholder}}">
+    <md-icon md-font-icon="fa fa-close" ng-click="cheSearchController.hide()" ng-show="cheSearchController.isShown"></md-icon>
+  </div>
 </div>

@@ -42,6 +42,7 @@ import {CheListItemChecked} from './list/che-list-item-checked.directive';
 import {ChePanelCtrl} from './panel/che-panel.controller';
 import {ChePanel} from './panel/che-panel.directive';
 import {CheSearch} from './search/che-search.directive';
+import {CheSearchController} from './search/che-search.controller';
 import {CheSelect} from './select/che-select.directive';
 import {CheSelecterCtrl} from './selecter/che-selecter.controller';
 import {CheSelecter} from './selecter/che-selecter.directive';
@@ -101,6 +102,7 @@ export class WidgetConfig {
       .directive('chePanel', ChePanel)
 
       .directive('cheSearch', CheSearch)
+      .controller('CheSearchController', CheSearchController)
 
       .directive('cheSelect', CheSelect)
 

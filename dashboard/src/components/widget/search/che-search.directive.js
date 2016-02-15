@@ -11,7 +11,22 @@
 'use strict';
 
 /**
- * Defines a directive for creating search/filtering input.
+ * @ngdoc directive
+ * @name components.directive:cheSearch
+ * @restrict E
+ * @function
+ * @element
+ *
+ * @description
+ * `<che-search>` defines search component for filtering.
+ *
+ * @param {string=} che-placeholder the placeholder for search input
+ * @param {element=} che-replace-element the optional element which will be replaced by search input
+ * @param {expression} ng-model The model!
+ * @param {string=} che-name element name
+ * @usage
+ *   <che-search che-placeholder="Search for.." ng-model="ctrl.filter"></che-search>
+ *
  * @author Ann Shumilova
  */
 export class CheSearch {
@@ -22,16 +37,19 @@ export class CheSearch {
    */
   constructor () {
     this.restrict = 'E';
-   // this.replace= true;
     this.transclude= true;
     this.templateUrl = 'components/widget/search/che-search.html';
 
-    // we require ngModel as we want to use it inside our directive
+    this.controller = 'CheSearchController';
+    this.controllerAs = 'cheSearchController';
+    this.bindToController = true;
+
     this.require = ['ngModel'];
 
     // scope values
     this.scope = {
       placeholder:'@chePlaceholder',
+      replaceElement: '@cheReplaceElement',
       valueModel : '=ngModel',
       inputName:'@cheName'
     };
