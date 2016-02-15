@@ -11,6 +11,8 @@
 package org.eclipse.che.git.impl.nativegit;
 
 
+import com.google.common.collect.ImmutableMap;
+
 import org.eclipse.che.api.core.UnauthorizedException;
 import org.eclipse.che.api.core.util.LineConsumerFactory;
 import org.eclipse.che.api.git.Config;
@@ -586,12 +588,11 @@ public class NativeGitConnection implements GitConnection {
                 throw gitEx;
             }
             ProviderInfo info = credentialsLoader.getProviderInfo(command.getRemoteUri());
-            Map<String, String> attributes = new HashMap<>();
             if (info != null) {
-                attributes.put("providerId", info.getProviderId());
-                attributes.put("authenticateUrl", info.getAuthenticateUrl());
+                throw new UnauthorizedException(gitEx.getMessage(), 32080, ImmutableMap.of("providerId", info.getProviderId(),
+                                                                                           "authenticateUrl", info.getAuthenticateUrl()));
             }
-            throw new UnauthorizedException(gitEx.getMessage(), 32080, attributes);
+            throw new UnauthorizedException(gitEx.getMessage(), 32080);
         }
     }
 
