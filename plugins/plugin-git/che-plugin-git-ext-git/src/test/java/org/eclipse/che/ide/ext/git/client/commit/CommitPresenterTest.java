@@ -70,6 +70,7 @@ public class CommitPresenterTest extends BaseTest {
                                         service,
                                         constant,
                                         notificationManager,
+                                        dialogFactory,
                                         dtoUnmarshallerFactory,
                                         appContext,
                                         dateTimeFormatter,
