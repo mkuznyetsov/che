@@ -11,18 +11,13 @@
 package org.eclipse.che.api.core.model.machine;
 
 /**
- * Websocket channels that provide information about machine.
+ * Runtime information about machine.
  *
  * @author Alexander Garagatyi
  */
-public interface Channels {
+public interface MachineRuntimeInfo {
     /**
-     * Returns channel of websocket where machine logs should be put.
+     * Returns machine specific runtime metadata
      */
-    String getOutput();
-
-    /**
-     * Returns channel of websocket where machine status events should be put.
-     */
-    String getStatus();
+    MachineMetadata getMetadata();
 }

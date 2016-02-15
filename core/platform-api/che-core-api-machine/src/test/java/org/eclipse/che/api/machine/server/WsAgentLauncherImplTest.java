@@ -14,15 +14,16 @@ import org.eclipse.che.api.core.BadRequestException;
 import org.eclipse.che.api.core.NotFoundException;
 import org.eclipse.che.api.core.ServerException;
 import org.eclipse.che.api.core.model.machine.Command;
-import org.eclipse.che.api.core.model.machine.MachineMetadata;
 import org.eclipse.che.api.core.model.machine.Server;
 import org.eclipse.che.api.core.rest.HttpJsonRequest;
 import org.eclipse.che.api.core.rest.HttpJsonRequestFactory;
 import org.eclipse.che.api.core.rest.HttpJsonResponse;
 import org.eclipse.che.api.machine.server.exception.MachineException;
 import org.eclipse.che.api.machine.server.model.impl.CommandImpl;
+import org.eclipse.che.api.machine.server.model.impl.MachineImpl;
+import org.eclipse.che.api.machine.server.model.impl.MachineMetadataImpl;
+import org.eclipse.che.api.machine.server.model.impl.MachineRuntimeInfoImpl;
 import org.eclipse.che.api.machine.server.model.impl.ServerImpl;
-import org.eclipse.che.api.machine.server.spi.Instance;
 import org.eclipse.che.commons.test.SelfReturningAnswer;
 import org.mockito.Mock;
 import org.mockito.testng.MockitoTestNGListener;
@@ -67,11 +68,13 @@ public class WsAgentLauncherImplTest {
     @Mock
     private HttpJsonRequestFactory requestFactory;
     @Mock
-    private Instance               machineInstance;
+    private MachineImpl            machine;
     @Mock
     private HttpJsonResponse       pingResponse;
     @Mock
-    private MachineMetadata        machineMetadata;
+    private MachineMetadataImpl    machineMetadata;
+    @Mock
+    private MachineRuntimeInfoImpl machineRuntime;
 
     private HttpJsonRequest     pingRequest;
     private WsAgentLauncherImpl wsAgentLauncher;
@@ -86,9 +89,10 @@ public class WsAgentLauncherImplTest {
                                                   WS_AGENT_PING_DELAY_MS,
                                                   WS_AGENT_PING_CONN_TIMEOUT_MS);
         pingRequest = mock(HttpJsonRequest.class, new SelfReturningAnswer());
-        when(machineManager.getDevMachine(WS_ID)).thenReturn(machineInstance);
-        when(machineInstance.getId()).thenReturn(MACHINE_ID);
-        when(machineInstance.getMetadata()).thenReturn(machineMetadata);
+        when(machineManager.getDevMachine(WS_ID)).thenReturn(machine);
+        when(machine.getId()).thenReturn(MACHINE_ID);
+        when(machine.getRuntime()).thenReturn(machineRuntime);
+        when(machineRuntime.getMetadata()).thenReturn(machineMetadata);
         doReturn(Collections.<String, Server>singletonMap(WS_AGENT_PORT, SERVER)).when(machineMetadata).getServers();
         when(requestFactory.fromUrl(anyString())).thenReturn(pingRequest);
         when(pingRequest.request()).thenReturn(pingResponse);
