@@ -12,6 +12,7 @@ package org.eclipse.che.git.impl.nativegit;
 
 
 import org.eclipse.che.api.core.UnauthorizedException;
+import org.eclipse.che.api.core.rest.shared.dto.ExtendedError;
 import org.eclipse.che.api.core.util.LineConsumerFactory;
 import org.eclipse.che.api.git.Config;
 import org.eclipse.che.api.git.CredentialsLoader;
@@ -300,9 +301,13 @@ public class NativeGitConnection implements GitConnection {
             Revision rev = log.execute().get(0);
             rev.setBranch(getCurrentBranch());
             return rev;
-        } catch (Exception e) {
+        } catch (Exception exception) {
+            if (exception instanceof GitException &&
+                (((ExtendedError)((GitException)exception).getServiceError()).getErrorCode() == 32025)) {
+                throw exception;
+            }
             Revision revision = DtoFactory.getInstance().createDto(Revision.class);
-            revision.setMessage(e.getMessage());
+            revision.setMessage(exception.getMessage());
             revision.setFake(true);
             return revision;
         }

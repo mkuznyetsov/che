@@ -20,6 +20,7 @@ import org.eclipse.che.ide.api.app.AppContext;
 import org.eclipse.che.ide.api.notification.NotificationManager;
 import org.eclipse.che.ide.api.project.node.HasStorablePath;
 import org.eclipse.che.ide.api.selection.Selection;
+import org.eclipse.che.ide.commons.exception.ServerException;
 import org.eclipse.che.ide.ext.git.client.DateTimeFormatter;
 import org.eclipse.che.ide.ext.git.client.GitLocalizationConstant;
 import org.eclipse.che.ide.ext.git.client.outputconsole.GitOutputConsole;
@@ -140,11 +141,11 @@ public class CommitPresenter implements CommitView.ActionDelegate {
 
                     @Override
                     protected void onFailure(final Throwable exception) {
-                        handleError(exception.getMessage());
+                        handleError(exception);
                     }
                 });
             } catch (final WebSocketException e) {
-                handleError("Communication error with the server");
+                handleError(new Exception("Communication error with the server", e));
             }
         }
     }
@@ -172,13 +173,17 @@ public class CommitPresenter implements CommitView.ActionDelegate {
                                    if (!result.isFake()) {
                                        onCommitSuccess(result);
                                    } else {
-                                       handleError(result.getMessage());
+                                       GitOutputConsole console = gitOutputConsoleFactory.create(COMMIT_COMMAND_NAME);
+                                       console.printError(result.getMessage());
+                                       consolesPanelPresenter.addCommandOutput(appContext.getDevMachineId(), console);
+                                       notificationManager.notify(constant.commited(), result.getMessage(),
+                                                                  appContext.getCurrentProject().getRootProject());
                                    }
                                }
 
                                @Override
                                protected void onFailure(final Throwable exception) {
-                                   handleError(exception.getMessage());
+                                   handleError(exception);
                                }
                            }
                           );
@@ -194,13 +199,17 @@ public class CommitPresenter implements CommitView.ActionDelegate {
                                if (!result.isFake()) {
                                    onCommitSuccess(result);
                                } else {
-                                   handleError(result.getMessage());
+                                   GitOutputConsole console = gitOutputConsoleFactory.create(COMMIT_COMMAND_NAME);
+                                   console.printError(result.getMessage());
+                                   consolesPanelPresenter.addCommandOutput(appContext.getDevMachineId(), console);
+                                   notificationManager.notify(constant.commitFailed(), result.getMessage(), FAIL, true,
+                                                              appContext.getCurrentProject().getRootProject());
                                }
                            }
 
                            @Override
                            protected void onFailure(final Throwable exception) {
-                               handleError(exception.getMessage());
+                               handleError(exception);
                            }
                        }
                       );
@@ -243,14 +252,13 @@ public class CommitPresenter implements CommitView.ActionDelegate {
     }
 
     /**
-     * Handler some action whether some error happened.
+     * Handler some action whether some exception happened.
      *
-     * @param message
-     *         exception message about what happened
+     * @param exception
+     *         exception that happened
      */
-    private void handleError(String message) {
-        String errorMessage = (message != null && !message.isEmpty()) ? message : constant.commitFailed();
-        if ("Git user name and (or) email wasn't set.".equals(errorMessage)) {
+    private void handleError(@NotNull Throwable exception) {
+        if (exception instanceof ServerException && ((ServerException)exception).getErrorCode() == 32025) {
             dialogFactory.createMessageDialog(constant.commitTitle(), constant.committerIdentityInfoEmpty(), new ConfirmCallback() {
                 @Override
                 public void accepted() {
@@ -259,6 +267,7 @@ public class CommitPresenter implements CommitView.ActionDelegate {
             }).show();
             return;
         }
+        String errorMessage = (exception.getMessage() != null && !exception.getMessage().isEmpty()) ? exception.getMessage() : constant.commitFailed();
         GitOutputConsole console = gitOutputConsoleFactory.create(COMMIT_COMMAND_NAME);
         console.printError(errorMessage);
         consolesPanelPresenter.addCommandOutput(appContext.getDevMachineId(), console);

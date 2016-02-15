@@ -40,13 +40,13 @@ public class TagCreateCommand extends GitCommand<Tag> {
     @Override
     public Tag execute() throws GitException {
         if (name == null) {
-            throw new GitException("Name wasn't set.");
+            throw new GitException("Name wasn't set");
         }
         if (committer == null) {
             throw new GitException("Committer can't be null");
         }
         if (committer.getName() == null || committer.getEmail() == null) {
-            throw new GitException("Git user name and (or) email wasn't set.");
+            throw new GitException("Git user name and (or) email wasn't set", 32025);
         }
         reset();
         commandLine.add("tag", name);

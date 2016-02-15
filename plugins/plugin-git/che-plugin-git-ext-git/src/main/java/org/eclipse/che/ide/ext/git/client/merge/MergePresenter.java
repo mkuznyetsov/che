@@ -24,6 +24,7 @@ import org.eclipse.che.ide.api.editor.EditorPartPresenter;
 import org.eclipse.che.ide.api.event.FileContentUpdateEvent;
 import org.eclipse.che.ide.api.notification.NotificationManager;
 import org.eclipse.che.ide.api.project.tree.VirtualFile;
+import org.eclipse.che.ide.commons.exception.ServerException;
 import org.eclipse.che.ide.ext.git.client.GitLocalizationConstant;
 import org.eclipse.che.ide.ext.git.client.outputconsole.GitOutputConsole;
 import org.eclipse.che.ide.ext.git.client.outputconsole.GitOutputConsoleFactory;
@@ -185,13 +186,14 @@ public class MergePresenter implements MergeView.ActionDelegate {
 
                           @Override
                           protected void onFailure(Throwable exception) {
-                              if ("Git user name and (or) email wasn't set.".equals(exception.getMessage())) {
-                                  dialogFactory.createMessageDialog(constant.mergeTitle(), constant.committerIdentityInfoEmpty(), new ConfirmCallback() {
-                                      @Override
-                                      public void accepted() {
-                                          //do nothing
-                                      }
-                                  }).show();
+                              if (exception instanceof ServerException && ((ServerException)exception).getErrorCode() == 32025) {
+                                  dialogFactory.createMessageDialog(constant.mergeTitle(), constant.committerIdentityInfoEmpty(),
+                                                                    new ConfirmCallback() {
+                                                                        @Override
+                                                                        public void accepted() {
+                                                                            //do nothing
+                                                                        }
+                                                                    }).show();
                                   return;
                               }
                               console.printError(exception.getMessage());

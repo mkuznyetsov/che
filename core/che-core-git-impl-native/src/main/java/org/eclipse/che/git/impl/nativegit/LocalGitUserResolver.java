@@ -26,7 +26,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.eclipse.che.dto.server.DtoFactory.newDto;
 
 /**
- * Resolves user for git based on environment context.
+ * Resolves git user from environment preferences.
  *
  * @author Max Shaposhnik
  */

@@ -21,9 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Commit changes
@@ -49,13 +47,13 @@ public class CommitCommand extends GitCommand<Void> {
     @Override
     public Void execute() throws GitException {
         if (message == null) {
-            throw new GitException("Message wasn't set.");
+            throw new GitException("Message wasn't set");
         }
         if (committer == null) {
             throw new GitException("Committer can't be null");
         }
         if (committer.getName() == null || committer.getEmail() == null) {
-            throw new GitException("Git user name and (or) email wasn't set.");
+            throw new GitException("Git user name and (or) email wasn't set", 32025);
         }
         reset();
         commandLine.add("commit");

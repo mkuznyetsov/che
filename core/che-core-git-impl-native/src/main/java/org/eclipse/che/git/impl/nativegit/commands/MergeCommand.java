@@ -41,13 +41,13 @@ public class MergeCommand extends GitCommand<MergeResult> {
     @Override
     public MergeResult execute() throws GitException {
         if (commit == null) {
-            throw new GitException("Commit wasn't set.");
+            throw new GitException("Commit wasn't set");
         }
         if (committer == null) {
             throw new GitException("Committer can't be null");
         }
         if (committer.getName() == null || committer.getEmail() == null) {
-            throw new GitException("Git user name and (or) email wasn't set.");
+            throw new GitException("Git user name and (or) email wasn't set", 32025);
         }
         reset();
         commandLine.add("merge", commit);
