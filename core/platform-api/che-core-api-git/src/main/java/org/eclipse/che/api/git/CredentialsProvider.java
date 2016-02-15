@@ -37,7 +37,6 @@ public interface CredentialsProvider {
 
     /**
      * @return additional information about given provider
-     *
      */
     ProviderInfo getProviderInfo();
 }
