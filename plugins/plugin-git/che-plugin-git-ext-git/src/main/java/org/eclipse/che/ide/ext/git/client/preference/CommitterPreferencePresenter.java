@@ -43,12 +43,8 @@ public class CommitterPreferencePresenter extends AbstractPreferencePagePresente
         this.view = view;
         this.preferencesManager = preferencesManager;
 
-        if (preferencesManager.getValue(COMMITTER_NAME) != null ) {
-            name = preferencesManager.getValue(COMMITTER_NAME);
-        }
-        if (preferencesManager.getValue(COMMITTER_EMAIL) != null) {
-            email = preferencesManager.getValue(COMMITTER_EMAIL);
-        }
+        name = preferencesManager.getValue(COMMITTER_NAME);
+        email = preferencesManager.getValue(COMMITTER_EMAIL);
 
         view.setDelegate(this);
     }
@@ -96,6 +92,9 @@ public class CommitterPreferencePresenter extends AbstractPreferencePagePresente
     /** {@inheritDoc} */
     @Override
     public void revertChanges() {
+        name = preferencesManager.getValue(COMMITTER_NAME);
+        email = preferencesManager.getValue(COMMITTER_EMAIL);
+
         view.setName(name);
         view.setEmail(email);
 
