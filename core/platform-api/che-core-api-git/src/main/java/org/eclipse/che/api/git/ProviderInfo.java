@@ -28,7 +28,6 @@ public class ProviderInfo {
     }
 
     public String getProviderId() {
-
         return providerId;
     }
 
