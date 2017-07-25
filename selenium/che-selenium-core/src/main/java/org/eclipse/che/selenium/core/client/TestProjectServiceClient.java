@@ -13,8 +13,8 @@ package org.eclipse.che.selenium.core.client;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.che.api.core.model.project.ProjectConfig;
 import org.eclipse.che.api.core.model.workspace.Workspace;
+import org.eclipse.che.api.core.model.workspace.runtime.Machine;
 import org.eclipse.che.api.core.rest.HttpJsonRequestFactory;
 import org.eclipse.che.api.workspace.shared.dto.ProjectConfigDto;
 import org.eclipse.che.commons.lang.IoUtil;
@@ -27,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
@@ -183,7 +184,7 @@ public class TestProjectServiceClient {
         }
     }
 
-    public ProjectConfig getFirstProject(String workspaceId, String authToken) throws Exception {
+    public ProjectConfigDto getFirstProject(String workspaceId, String authToken) throws Exception {
         String apiUrl = getWsAgentUrl(workspaceId, authToken);
         return requestFactory.fromUrl(apiUrl)
                              .setAuthorizationHeader(machineServiceClient.getMachineApiToken(workspaceId, authToken))
@@ -227,12 +228,14 @@ public class TestProjectServiceClient {
         Workspace workspace = workspaceServiceClient.getById(workspaceId, authToken);
         workspaceServiceClient.ensureRunningStatus(workspace);
 
-        return workspace.getRuntime()
-                        .getMachines()
-                        .get(0)
-                        .getRuntime()
-                        .getServers()
-                        .get(String.valueOf(WS_AGENT_PORT) + "/tcp")
-                        .getUrl() + "/project";
+        Map<String, ? extends Machine> machines = workspaceServiceClient.getById(workspaceId, authToken)
+                                                                        .getRuntime()
+                                                                        .getMachines();
+        for (Machine machine : machines.values()) {
+            if (machine.getServers().get("wsagent") == null) {
+                return machine.getServers().get("wsagent").getUrl() + "/project";
+            }
+        }
+        throw new RuntimeException("Cannot find dev machine on workspace");
     }
 }

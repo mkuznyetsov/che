@@ -15,9 +15,10 @@ import com.google.inject.Singleton;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.che.api.core.NotFoundException;
-import org.eclipse.che.api.core.model.machine.Server;
 import org.eclipse.che.api.core.model.workspace.Workspace;
 import org.eclipse.che.api.core.model.workspace.WorkspaceStatus;
+import org.eclipse.che.api.core.model.workspace.runtime.Machine;
+import org.eclipse.che.api.core.model.workspace.runtime.Server;
 import org.eclipse.che.api.core.rest.HttpJsonRequestFactory;
 import org.eclipse.che.api.workspace.shared.dto.EnvironmentDto;
 import org.eclipse.che.api.workspace.shared.dto.WorkspaceConfigDto;
@@ -31,6 +32,7 @@ import org.eclipse.che.selenium.core.workspace.MemoryMeasure;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -234,10 +236,9 @@ public class TestWorkspaceServiceClient {
         return getById(workspaceId, authToken).getRuntime()
                         .getMachines()
                         .get(0)
-                        .getRuntime()
                         .getServers()
                         .get(valueOf(port) + "/tcp")
-                        .getAddress();
+                        .getUrl();
     }
 
     /**
@@ -259,11 +260,14 @@ public class TestWorkspaceServiceClient {
 
         ensureRunningStatus(workspace);
 
-        return workspace.getRuntime()
-                        .getDevMachine()
-                        .getRuntime()
-                        .getServers()
-                        .get(exposedPort);
+        Map<String, ? extends Machine> machines = workspace.getRuntime()
+                                                           .getMachines();
+        for (Machine machine : machines.values()) {
+            if (machine.getServers().get("wsagent") == null) {
+                return machine.getServers().get(exposedPort);
+            }
+        }
+        return null;
     }
 
     /**
