@@ -232,7 +232,7 @@ public class TestProjectServiceClient {
                                                                         .getRuntime()
                                                                         .getMachines();
         for (Machine machine : machines.values()) {
-            if (machine.getServers().get("wsagent") == null) {
+            if (machine.getServers().get("wsagent") != null) {
                 return machine.getServers().get("wsagent").getUrl() + "/project";
             }
         }
