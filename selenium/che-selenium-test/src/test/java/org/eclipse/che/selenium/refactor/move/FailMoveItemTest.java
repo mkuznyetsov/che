@@ -68,7 +68,7 @@ public class FailMoveItemTest {
         testProjectServiceClient.importProject(workspace.getId(), defaultTestUser.getAuthToken(), Paths.get(resource.toURI()),
                                                PROJECT_NAME,
                                                ProjectTemplates.MAVEN_SPRING
-        );
+                                              );
         ide.open(workspace);
         projectExplorer.waitVisibleItem(PROJECT_NAME);
         projectExplorer.quickExpandWithJavaScript();

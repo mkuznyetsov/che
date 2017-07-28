@@ -53,9 +53,9 @@ public class Consoles {
     public static final String CLOSE_TERMINAL_CONSOLES_ICON = "//span[text()='Terminal']/preceding::span[2]";
     public static final String PROCESSES_TAB                = "gwt-debug-partButton-Processes";
     public static final String MAXIMIZE_PANEL_ICON          =
-            "//div[@id='gwt-debug-infoPanel']//div[text()='Processes']/parent::div/following-sibling::div//*[local-name() = 'svg' and @name='workBenchIconMaximize']";
+            "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-maximizeButton']";
     public static final String HIDE_CONSOLES_ICON           =
-            "//div[@id='gwt-debug-infoPanel']//div[text()='Processes']/parent::div/following-sibling::div//*[local-name() = 'svg' and @name='workBenchIconMinimize']";
+            "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-hideButton']";
     public static final String PREVIEW_URL                  = "//div[@active]//a[@href]";
     public static final String COMMAND_CONSOLE_ID           = "//div[@active]//div[@id='gwt-debug-commandConsoleLines']";
 
@@ -174,7 +174,8 @@ public class Consoles {
      *         is timeout in seconds defined by user
      */
     public void waitProcessInProcessConsoleTree(String nameProcess, int timeout) {
-        new WebDriverWait(seleniumWebDriver, timeout).until(visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
+        new WebDriverWait(seleniumWebDriver, timeout)
+                .until(visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
     }
 
     /**
@@ -206,7 +207,9 @@ public class Consoles {
     public void selectProcessByTabName(String tabNameProcess) {
         loader.waitOnClosed();
         new WebDriverWait(seleniumWebDriver, REDRAW_UI_ELEMENTS_TIMEOUT_SEC).until(visibilityOfElementLocated
-                (By.xpath(String.format(TAB_PROCESS_NAME, tabNameProcess)))).click();
+                                                                                           (By.xpath(String.format(TAB_PROCESS_NAME,
+                                                                                                                   tabNameProcess))))
+                                                                            .click();
         loader.waitOnClosed();
     }
 

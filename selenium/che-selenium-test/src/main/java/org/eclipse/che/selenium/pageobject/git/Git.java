@@ -15,6 +15,7 @@ import com.google.inject.Singleton;
 
 import org.eclipse.che.selenium.core.SeleniumWebDriver;
 import org.eclipse.che.selenium.core.constant.TestGitConstants;
+import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
 import org.eclipse.che.selenium.pageobject.AskDialog;
 import org.eclipse.che.selenium.pageobject.AskForValueDialog;
 import org.eclipse.che.selenium.pageobject.ImportProjectFromLocation;
@@ -23,7 +24,6 @@ import org.eclipse.che.selenium.pageobject.MavenPluginStatusBar;
 import org.eclipse.che.selenium.pageobject.Menu;
 import org.eclipse.che.selenium.pageobject.ProjectExplorer;
 import org.eclipse.che.selenium.pageobject.Wizard;
-import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
 import org.openqa.selenium.support.PageFactory;
 
 import static java.util.Arrays.stream;
@@ -1026,7 +1026,8 @@ public class Git {
      */
     public void createNewFileAndPushItToGitHub(String path, String fileName) {
         projectExplorer.selectItem(path);
-        menu.runCommand(TestMenuCommandsConstants.Project.PROJECT, TestMenuCommandsConstants.Project.New.NEW, TestMenuCommandsConstants.Project.New.FILE);
+        menu.runCommand(TestMenuCommandsConstants.Project.PROJECT, TestMenuCommandsConstants.Project.New.NEW,
+                        TestMenuCommandsConstants.Project.New.FILE);
         askForValueDialog.waitFormToOpen();
         askForValueDialog.typeAndWaitText(fileName);
         askForValueDialog.clickOkBtn();
@@ -1066,10 +1067,24 @@ public class Git {
         projectWizard.selectTypeProject(typeProject);
         loader.waitOnClosed();
         projectWizard.clickSaveButton();
-        mavenPluginStatusBar.waitExpectedTextInInfoPanel(expectedMessage);
         loader.waitOnClosed();
         projectWizard.waitCreateProjectWizardFormIsClosed();
         projectExplorer.waitItem(nameApp);
         loader.waitOnClosed();
     }
+
+    public void importJavaAppAndCheckMavenPluginBar(String url, String nameApp, String typeProject) {
+        loader.waitOnClosed();
+        menu.runCommand(TestMenuCommandsConstants.Workspace.WORKSPACE, TestMenuCommandsConstants.Workspace.IMPORT_PROJECT);
+        importProject.waitAndTypeImporterAsGitInfo(url, nameApp);
+        projectWizard.waitCreateProjectWizardForm();
+        projectWizard.selectTypeProject(typeProject);
+        loader.waitOnClosed();
+        projectWizard.clickSaveButton();
+        loader.waitOnClosed();
+        projectWizard.waitCreateProjectWizardFormIsClosed();
+        projectExplorer.waitItem(nameApp);
+        loader.waitOnClosed();
+    }
+
 }
