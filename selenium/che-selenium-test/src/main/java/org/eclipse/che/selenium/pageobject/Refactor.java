@@ -83,7 +83,7 @@ public class Refactor {
                 "/preceding-sibling::span";
         String NAME_PATTERNS_FIELD                 = "//div[text()='File name patterns:']/following-sibling::input";
         String ERROR_CONTAINER_OF_COMPILATION_FORM = "//div[@style[contains(.,'color: rgb(195, 77, 77)')]]";
-        String TEXT_MESSAGE_MOVE_FORM              = "//div[@style[contains(.,'color: rgb(255, 255, 255)')]]";
+        String TEXT_MESSAGE_MOVE_FORM              = "//div[text()='Move item']/parent::div/parent::div/parent::div//div[text()='%s']";
         String ITEM_CHANGES_TO_BE_PERFORMED        = "//div[contains(text(),'Rename')]/ancestor::div[3]//div[contains(text(),'%s')]";
         String EXPAND_ITEM_ICON                    =
                 "//div[@id='tree-of-changes']//div[contains(text(),'%s')]//preceding::td[1]";
@@ -636,8 +636,8 @@ public class Refactor {
      *         expected message
      */
     public void waitTextInMoveForm(String mess) {
-        new WebDriverWait(seleniumWebDriver, LOAD_PAGE_TIMEOUT_SEC).until(ExpectedConditions.textToBePresentInElementLocated(
-                By.xpath(Locators.TEXT_MESSAGE_MOVE_FORM), mess));
+        new WebDriverWait(seleniumWebDriver, LOAD_PAGE_TIMEOUT_SEC).until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath(String.format(Locators.TEXT_MESSAGE_MOVE_FORM, mess))));
     }
 
     /**

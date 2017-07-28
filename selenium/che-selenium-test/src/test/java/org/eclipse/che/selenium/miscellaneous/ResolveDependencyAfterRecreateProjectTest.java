@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 
 import org.eclipse.che.commons.lang.NameGenerator;
 import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
-import org.eclipse.che.selenium.core.constant.TestToolbarPanelConstants;
+import org.eclipse.che.selenium.core.constant.TestProjectExplorerContextMenuConstants;
 import org.eclipse.che.selenium.core.workspace.TestWorkspace;
 import org.eclipse.che.selenium.pageobject.AskDialog;
 import org.eclipse.che.selenium.pageobject.CodenvyEditor;
@@ -87,9 +87,11 @@ public class ResolveDependencyAfterRecreateProjectTest {
     }
 
     public void removeProjectFromUI() {
-        projectExplorer.selectVisibleItem(NAME_OF_THE_PROJECT_1);
-        menu.runCommand(TestToolbarPanelConstants.Actions.DELETE);
+        projectExplorer.openContextMenuByPathSelectedItem(NAME_OF_THE_PROJECT_1);
+        projectExplorer.clickOnItemInContextMenu(TestProjectExplorerContextMenuConstants.DELETE);
+        askDialog.waitFormToOpen();
         askDialog.clickOkBtn();
+        askDialog.waitFormToClose();
         projectExplorer.waitItemIsNotPresentVisibleArea(NAME_OF_THE_PROJECT_1);
     }
 

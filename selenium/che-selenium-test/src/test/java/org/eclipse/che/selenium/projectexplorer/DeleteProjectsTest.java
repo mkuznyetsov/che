@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.che.selenium.projectexplorer;
 
-import org.eclipse.che.selenium.core.project.ProjectTemplates;
 import com.google.inject.Inject;
 
 import org.eclipse.che.selenium.core.client.TestProjectServiceClient;
+import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
+import org.eclipse.che.selenium.core.constant.TestProjectExplorerContextMenuConstants;
+import org.eclipse.che.selenium.core.project.ProjectTemplates;
 import org.eclipse.che.selenium.core.user.DefaultTestUser;
 import org.eclipse.che.selenium.core.workspace.TestWorkspace;
 import org.eclipse.che.selenium.pageobject.AskDialog;
@@ -23,8 +25,6 @@ import org.eclipse.che.selenium.pageobject.IdeMainDockPanel;
 import org.eclipse.che.selenium.pageobject.Loader;
 import org.eclipse.che.selenium.pageobject.Menu;
 import org.eclipse.che.selenium.pageobject.ProjectExplorer;
-import org.eclipse.che.selenium.core.constant.TestProjectExplorerContextMenuConstants;
-import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
 import org.openqa.selenium.TimeoutException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -48,9 +48,9 @@ public class DeleteProjectsTest {
                                                                     "DeleteProjectTest5");
 
     @Inject
-    private TestWorkspace        workspace;
+    private TestWorkspace            workspace;
     @Inject
-    private DefaultTestUser      defaultTestUser;
+    private DefaultTestUser          defaultTestUser;
     @Inject
     private Ide                      ide;
     @Inject
@@ -75,7 +75,7 @@ public class DeleteProjectsTest {
             testProjectServiceClient.importProject(workspace.getId(), defaultTestUser.getAuthToken(), Paths.get(resource.toURI()),
                                                    projectName,
                                                    ProjectTemplates.MAVEN_SPRING
-            );
+                                                  );
         }
         ide.open(workspace);
         projectExplorer.waitProjectExplorer();
@@ -102,14 +102,6 @@ public class DeleteProjectsTest {
     }
 
     @Test(priority = 2)
-    public void shouldDeleteProjectByDeleteIcon() {
-        projectExplorer.waitItem(PROJECT_NAMES.get(2));
-        deleteFromDeleteIcon(PROJECT_NAMES.get(2));
-        acceptDeletion(PROJECT_NAMES.get(2));
-        checkErrorMessageNotPresentInConsole();
-    }
-
-    @Test(priority = 3)
     public void shouldDeleteOpenedProjectByMenuFile() {
         projectExplorer.waitItem(PROJECT_NAMES.get(3));
         projectExplorer.openItemByPath(PROJECT_NAMES.get(3));
@@ -122,7 +114,7 @@ public class DeleteProjectsTest {
         checkErrorMessageNotPresentInConsole();
     }
 
-    @Test(priority = 4)
+    @Test(priority = 3)
     public void shouldDeleteOpenedProjectFromContextMenu() {
         projectExplorer.waitItem(PROJECT_NAMES.get(4));
         projectExplorer.openItemByPath(PROJECT_NAMES.get(4));
