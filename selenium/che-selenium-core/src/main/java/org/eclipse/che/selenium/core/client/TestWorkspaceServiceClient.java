@@ -235,7 +235,7 @@ public class TestWorkspaceServiceClient {
         Workspace workspace = getById(workspaceId);
         ensureRunningStatus(workspace);
 
-        return getById(workspaceId, authToken).getRuntime()
+        return getById(workspaceId).getRuntime()
                         .getMachines()
                         .get(0)
                         .getServers()

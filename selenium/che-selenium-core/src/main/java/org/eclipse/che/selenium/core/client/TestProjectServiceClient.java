@@ -223,7 +223,7 @@ public class TestProjectServiceClient {
         Workspace workspace = workspaceServiceClient.getById(workspaceId);
         workspaceServiceClient.ensureRunningStatus(workspace);
 
-        Map<String, ? extends Machine> machines = workspaceServiceClient.getById(workspaceId, authToken)
+        Map<String, ? extends Machine> machines = workspaceServiceClient.getById(workspaceId)
                                                                         .getRuntime()
                                                                         .getMachines();
         for (Machine machine : machines.values()) {
