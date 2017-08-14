@@ -17,6 +17,9 @@ import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
 import org.eclipse.che.selenium.core.constant.TestProjectExplorerContextMenuConstants;
 import org.eclipse.che.selenium.core.project.ProjectTemplates;
 import org.eclipse.che.selenium.core.user.DefaultTestUser;
+import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
+import org.eclipse.che.selenium.core.constant.TestProjectExplorerContextMenuConstants;
+import org.eclipse.che.selenium.core.project.ProjectTemplates;
 import org.eclipse.che.selenium.core.workspace.TestWorkspace;
 import org.eclipse.che.selenium.pageobject.AskDialog;
 import org.eclipse.che.selenium.pageobject.Consoles;
@@ -50,8 +53,6 @@ public class DeleteProjectsTest {
     @Inject
     private TestWorkspace            workspace;
     @Inject
-    private DefaultTestUser          defaultTestUser;
-    @Inject
     private Ide                      ide;
     @Inject
     private Consoles                 consoles;
@@ -72,7 +73,7 @@ public class DeleteProjectsTest {
     public void setUp() throws Exception {
         for (String projectName : PROJECT_NAMES) {
             URL resource = getClass().getResource("/projects/ProjectWithDifferentTypeOfFiles");
-            testProjectServiceClient.importProject(workspace.getId(), defaultTestUser.getAuthToken(), Paths.get(resource.toURI()),
+            testProjectServiceClient.importProject(workspace.getId(), Paths.get(resource.toURI()),
                                                    projectName,
                                                    ProjectTemplates.MAVEN_SPRING
                                                   );
