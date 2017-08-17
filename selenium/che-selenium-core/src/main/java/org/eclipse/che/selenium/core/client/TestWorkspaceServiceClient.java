@@ -262,7 +262,7 @@ public class TestWorkspaceServiceClient {
         Map<String, ? extends Machine> machines = workspace.getRuntime()
                                                            .getMachines();
         for (Machine machine : machines.values()) {
-            if (machine.getServers().get("wsagent") != null) {
+            if (machine.getServers().get("wsagent/http") != null) {
                 return machine.getServers().get(exposedPort);
             }
         }
