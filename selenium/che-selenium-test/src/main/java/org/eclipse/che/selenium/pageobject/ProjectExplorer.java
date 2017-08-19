@@ -83,15 +83,22 @@ public class ProjectExplorer {
     String REIMPORT = "contextMenu/Maven/Reimport";
   }
 
-    private interface Locators {
-        String PROJECT_EXPLORER_TREE_ITEMS            = "gwt-debug-projectTree";
-        String EXPLORER_RIGHT_TAB_ID                  = "gwt-debug-partButton-Explorer";
-        String CONTEXT_MENU_ID                        = "gwt-debug-contextMenu/newGroup";
-        String GO_BACK_BUTTON                         = "gwt-debug-goBackButton";
-        String COLLAPSE_ALL_BUTTON                    = "gwt-debug-collapseAllButton";
-        String ALL_PROJECTS_XPATH                     = "//div[@path=@project]";
-        String REFRESH_BUTTON_ID                      = "gwt-debug-refreshSelectedPath";
-        String PROJECT_EXPLORER_TAB_IN_THE_LEFT_PANEL = "//div[@id='gwt-debug-navPanel']//div[@id='gwt-debug-partButton-Projects']";    }
+  public interface FileWatcherExcludeOperations {
+    String ADD_TO_FILE_WATCHER_EXCLUDES = "contextMenu/Add to File Watcher excludes";
+    String REMOVE_FROM_FILE_WATCHER_EXCLUDES = "contextMenu/Remove from File Watcher excludes";
+  }
+
+  private interface Locators {
+    String PROJECT_EXPLORER_TREE_ITEMS = "gwt-debug-projectTree";
+    String EXPLORER_RIGHT_TAB_ID = "gwt-debug-partButton-Explorer";
+    String CONTEXT_MENU_ID = "gwt-debug-contextMenu/newGroup";
+    String GO_BACK_BUTTON = "gwt-debug-goBackButton";
+    String COLLAPSE_ALL_BUTTON = "gwt-debug-collapseAllButton";
+    String ALL_PROJECTS_XPATH = "//div[@path=@project]";
+    String REFRESH_BUTTON_ID = "gwt-debug-refreshSelectedPath";
+    String PROJECT_EXPLORER_TAB_IN_THE_LEFT_PANEL =
+        "//div[@id='gwt-debug-navPanel']//div[@id='gwt-debug-partButton-Projects']";
+  }
 
   public interface FolderTypes {
     String SIMPLE_FOLDER = "simpleFolder";
@@ -99,17 +106,16 @@ public class ProjectExplorer {
     String JAVA_SOURCE_FOLDER = "javaSourceFolder";
   }
 
-    public interface ProjectExplorerOptionsMenuItem {
-        String MAXIMAZE         = "contextMenu/Maximize";
-        String MINIMAZE         = "contextMenu/Minimize";
-        String COLLAPSE_ALL     = "contextMenu/Collapse All";
-        String REFRESH_MAIN     = "contextMenu/Refresh 'main'";
-        String LINK_WITH_EDITOR = "contextMenu/Link with editor";
+  public interface ProjectExplorerOptionsMenuItem {
+    String MAXIMAZE = "contextMenu/Maximize";
+    String MINIMAZE = "contextMenu/Minimize";
+    String COLLAPSE_ALL = "contextMenu/Collapse All";
+    String REFRESH_MAIN = "contextMenu/Refresh 'main'";
+    String LINK_WITH_EDITOR = "contextMenu/Link with editor";
+  }
 
-    }
-
-    @FindBy(id = Locators.PROJECT_EXPLORER_TREE_ITEMS)
-    WebElement projectExplorerTree;
+  @FindBy(id = Locators.PROJECT_EXPLORER_TREE_ITEMS)
+  WebElement projectExplorerTree;
 
   @FindBy(id = Locators.EXPLORER_RIGHT_TAB_ID)
   WebElement projectExplorerTab;
@@ -129,22 +135,28 @@ public class ProjectExplorer {
   @FindBy(xpath = Locators.PROJECT_EXPLORER_TAB_IN_THE_LEFT_PANEL)
   WebElement projectExplorerTabInTheLeftPanel;
 
-    public void clickOnProjectExplorerOptionsButton() {
-        new WebDriverWait(seleniumWebDriver, REDRAW_UI_ELEMENTS_TIMEOUT_SEC).until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[@id='gwt-debug-navPanel']//div[@name='workBenchIconPartStackOptions']"))).click();
-    }
+  public void clickOnProjectExplorerOptionsButton() {
+    new WebDriverWait(seleniumWebDriver, REDRAW_UI_ELEMENTS_TIMEOUT_SEC)
+        .until(
+            ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(
+                    "//div[@id='gwt-debug-navPanel']//div[@name='workBenchIconPartStackOptions']")))
+        .click();
+  }
 
-    public void clickOnOptionsMenuItem(String menuID) {
-        new WebDriverWait(seleniumWebDriver, REDRAW_UI_ELEMENTS_TIMEOUT_SEC).until(ExpectedConditions.elementToBeClickable(
-                By.xpath(String.format("//nobr[@id='%s']", menuID)))).click();
-    }
+  public void clickOnOptionsMenuItem(String menuID) {
+    new WebDriverWait(seleniumWebDriver, REDRAW_UI_ELEMENTS_TIMEOUT_SEC)
+        .until(
+            ExpectedConditions.elementToBeClickable(
+                By.xpath(String.format("//nobr[@id='%s']", menuID))))
+        .click();
+  }
 
-    /**
-     * wait appearance of the IDE Project Explorer
-     */
-    public void waitProjectExplorer() {
-        new WebDriverWait(seleniumWebDriver, EXPECTED_MESS_IN_CONSOLE_SEC).until(ExpectedConditions.visibilityOf(projectExplorerTree));
-    }
+  /** wait appearance of the IDE Project Explorer */
+  public void waitProjectExplorer() {
+    new WebDriverWait(seleniumWebDriver, EXPECTED_MESS_IN_CONSOLE_SEC)
+        .until(ExpectedConditions.visibilityOf(projectExplorerTree));
+  }
 
   /** press on the project explorer tab */
   public void clickOnProjectExplorerTab() {
@@ -527,13 +539,11 @@ public class ProjectExplorer {
     actions.keyUp(Keys.CONTROL).perform();
   }
 
-    /**
-     * click on the 'collapse all' in the project explorer
-     */
-    public void collapseProjectTreeByOptionsButton() {
-        clickOnProjectExplorerOptionsButton();
-        clickOnOptionsMenuItem(ProjectExplorerOptionsMenuItem.COLLAPSE_ALL);
-    }
+  /** click on the 'collapse all' in the project explorer */
+  public void collapseProjectTreeByOptionsButton() {
+    clickOnProjectExplorerOptionsButton();
+    clickOnOptionsMenuItem(ProjectExplorerOptionsMenuItem.COLLAPSE_ALL);
+  }
 
   /** launch the 'Refactor Rename' form by keyboard after select a package or Java class */
   public void launchRefactorByKeyboard() {

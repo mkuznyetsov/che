@@ -67,14 +67,15 @@ public class CheckMavenPluginTest {
     projectExplorer.waitProjectExplorer();
   }
 
-    @Test
-    public void mavenStatusBarShouldDisplayResolvingProjectMessage() {
-        git.importJavaAppAndCheckMavenPluginBar("https://github.com/" + gitHubUsername + "/pushChangesTest.git",
-                                                PROJECT_NAME,
-                                                Wizard.TypeProject.MAVEN);
-        mavenPluginStatusBar.waitClosingInfoPanel(100);
-        projectExplorer.waitItem(PROJECT_NAME);
-    }
+  @Test
+  public void mavenStatusBarShouldDisplayResolvingProjectMessage() {
+    git.importJavaAppAndCheckMavenPluginBar(
+        "https://github.com/" + gitHubUsername + "/pushChangesTest.git",
+        PROJECT_NAME,
+        Wizard.TypeProject.MAVEN);
+    mavenPluginStatusBar.waitClosingInfoPanel(100);
+    projectExplorer.waitItem(PROJECT_NAME);
+  }
 
   @Test(priority = 1)
   public void shouldExecuteCommandAndWaitTextInConsole() throws Exception {
@@ -89,25 +90,25 @@ public class CheckMavenPluginTest {
     projectExplorer.expandPathInProjectExplorer(PROJECT_NAME + "/my-lib/src/main/java/hello");
     createNewFileFromMenuFile("TestClass", AskForValueDialog.JavaFiles.CLASS, ".java");
 
-        projectExplorer.collapseProjectTreeByOptionsButton();
-        projectExplorer.expandPathInProjectExplorerAndOpenFile(PROJECT_NAME + "/my-webapp/src/main/java/helloworld",
-                                                               "GreetingController.java");
-        editor.waitActiveEditor();
-        editor.setCursorToLine(24);
-        enterClassNameViaAutocomplete();
-        editor.typeTextIntoEditor(" testClass = new TestClass();");
-        editor.waitAllMarkersDisappear(ERROR_MARKER);
-    }
+    projectExplorer.collapseProjectTreeByOptionsButton();
+    projectExplorer.expandPathInProjectExplorerAndOpenFile(
+        PROJECT_NAME + "/my-webapp/src/main/java/helloworld", "GreetingController.java");
+    editor.waitActiveEditor();
+    editor.setCursorToLine(24);
+    enterClassNameViaAutocomplete();
+    editor.typeTextIntoEditor(" testClass = new TestClass();");
+    editor.waitAllMarkersDisappear(ERROR_MARKER);
+  }
 
-    @Test(priority = 3)
-    public void excludeIncludeModules() {
-        projectExplorer.collapseProjectTreeByOptionsButton();
-        projectExplorer.expandPathInProjectExplorerAndOpenFile(PROJECT_NAME, "pom.xml");
-        editor.waitActiveEditor();
-        editor.setCursorToDefinedLineAndChar(13, 8);
-        editor.typeTextIntoEditor("!--");
-        editor.setCursorToDefinedLineAndChar(13, 32);
-        editor.typeTextIntoEditor("--");
+  @Test(priority = 3)
+  public void excludeIncludeModules() {
+    projectExplorer.collapseProjectTreeByOptionsButton();
+    projectExplorer.expandPathInProjectExplorerAndOpenFile(PROJECT_NAME, "pom.xml");
+    editor.waitActiveEditor();
+    editor.setCursorToDefinedLineAndChar(13, 8);
+    editor.typeTextIntoEditor("!--");
+    editor.setCursorToDefinedLineAndChar(13, 32);
+    editor.typeTextIntoEditor("--");
 
     projectExplorer.waitFolderDefinedTypeOfFolderByPath(
         PROJECT_NAME + "/my-lib", ProjectExplorer.FolderTypes.SIMPLE_FOLDER);
@@ -126,17 +127,17 @@ public class CheckMavenPluginTest {
     editor.closeAllTabs();
   }
 
-    @Test(priority = 4)
-    public void shouldAccessClassCreatedInAnotherModuleAfterIncludingModule() {
-        projectExplorer.collapseProjectTreeByOptionsButton();
-        projectExplorer.expandPathInProjectExplorerAndOpenFile(PROJECT_NAME + "/my-webapp/src/main/java/helloworld",
-                                                               "GreetingController.java");
-        editor.waitActiveEditor();
-        editor.setCursorToDefinedLineAndChar(27, 1);
-        enterClassNameViaAutocomplete();
-        editor.typeTextIntoEditor(" testClass2 = new TestClass();");
-        editor.waitAllMarkersDisappear(ERROR_MARKER);
-    }
+  @Test(priority = 4)
+  public void shouldAccessClassCreatedInAnotherModuleAfterIncludingModule() {
+    projectExplorer.collapseProjectTreeByOptionsButton();
+    projectExplorer.expandPathInProjectExplorerAndOpenFile(
+        PROJECT_NAME + "/my-webapp/src/main/java/helloworld", "GreetingController.java");
+    editor.waitActiveEditor();
+    editor.setCursorToDefinedLineAndChar(27, 1);
+    enterClassNameViaAutocomplete();
+    editor.typeTextIntoEditor(" testClass2 = new TestClass();");
+    editor.waitAllMarkersDisappear(ERROR_MARKER);
+  }
 
   /** check ability just created class in autocomplete container */
   private void enterClassNameViaAutocomplete() {

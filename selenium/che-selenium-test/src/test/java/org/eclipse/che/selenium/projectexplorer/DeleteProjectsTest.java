@@ -19,10 +19,6 @@ import org.eclipse.che.selenium.core.client.TestProjectServiceClient;
 import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
 import org.eclipse.che.selenium.core.constant.TestProjectExplorerContextMenuConstants;
 import org.eclipse.che.selenium.core.project.ProjectTemplates;
-import org.eclipse.che.selenium.core.user.DefaultTestUser;
-import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
-import org.eclipse.che.selenium.core.constant.TestProjectExplorerContextMenuConstants;
-import org.eclipse.che.selenium.core.project.ProjectTemplates;
 import org.eclipse.che.selenium.core.workspace.TestWorkspace;
 import org.eclipse.che.selenium.pageobject.AskDialog;
 import org.eclipse.che.selenium.pageobject.Consoles;
@@ -94,32 +90,32 @@ public class DeleteProjectsTest {
     checkErrorMessageNotPresentInConsole();
   }
 
-    @Test(priority = 2)
-    public void shouldDeleteOpenedProjectByMenuFile() {
-        projectExplorer.waitItem(PROJECT_NAMES.get(3));
-        projectExplorer.openItemByPath(PROJECT_NAMES.get(3));
-        loader.waitOnClosed();
-        projectExplorer.waitItem(PROJECT_NAMES.get(3));
-        projectExplorer.selectItem(PROJECT_NAMES.get(3));
-        menu.runCommand(TestMenuCommandsConstants.Edit.EDIT, TestMenuCommandsConstants.Edit.DELETE);
-        acceptDeletion(PROJECT_NAMES.get(3));
-        projectExplorer.waitDisappearItemByPath(PROJECT_NAMES.get(3));
-        checkErrorMessageNotPresentInConsole();
-    }
+  @Test(priority = 2)
+  public void shouldDeleteOpenedProjectByMenuFile() {
+    projectExplorer.waitItem(PROJECT_NAMES.get(3));
+    projectExplorer.openItemByPath(PROJECT_NAMES.get(3));
+    loader.waitOnClosed();
+    projectExplorer.waitItem(PROJECT_NAMES.get(3));
+    projectExplorer.selectItem(PROJECT_NAMES.get(3));
+    menu.runCommand(TestMenuCommandsConstants.Edit.EDIT, TestMenuCommandsConstants.Edit.DELETE);
+    acceptDeletion(PROJECT_NAMES.get(3));
+    projectExplorer.waitDisappearItemByPath(PROJECT_NAMES.get(3));
+    checkErrorMessageNotPresentInConsole();
+  }
 
-    @Test(priority = 3)
-    public void shouldDeleteOpenedProjectFromContextMenu() {
-        projectExplorer.waitItem(PROJECT_NAMES.get(4));
-        projectExplorer.openItemByPath(PROJECT_NAMES.get(4));
-        loader.waitOnClosed();
-        projectExplorer.waitItem(PROJECT_NAMES.get(4));
-        projectExplorer.selectItem(PROJECT_NAMES.get(4));
-        projectExplorer.openContextMenuByPathSelectedItem(PROJECT_NAMES.get(4));
-        projectExplorer.clickOnItemInContextMenu(TestProjectExplorerContextMenuConstants.DELETE);
-        acceptDeletion(PROJECT_NAMES.get(4));
-        projectExplorer.waitDisappearItemByPath(PROJECT_NAMES.get(4));
-        checkErrorMessageNotPresentInConsole();
-    }
+  @Test(priority = 3)
+  public void shouldDeleteOpenedProjectFromContextMenu() {
+    projectExplorer.waitItem(PROJECT_NAMES.get(4));
+    projectExplorer.openItemByPath(PROJECT_NAMES.get(4));
+    loader.waitOnClosed();
+    projectExplorer.waitItem(PROJECT_NAMES.get(4));
+    projectExplorer.selectItem(PROJECT_NAMES.get(4));
+    projectExplorer.openContextMenuByPathSelectedItem(PROJECT_NAMES.get(4));
+    projectExplorer.clickOnItemInContextMenu(TestProjectExplorerContextMenuConstants.DELETE);
+    acceptDeletion(PROJECT_NAMES.get(4));
+    projectExplorer.waitDisappearItemByPath(PROJECT_NAMES.get(4));
+    checkErrorMessageNotPresentInConsole();
+  }
 
   private void deleteFromDeleteIcon(String pathToProject) {
     loader.waitOnClosed();

@@ -16,8 +16,6 @@ import java.nio.file.Paths;
 import org.eclipse.che.commons.lang.NameGenerator;
 import org.eclipse.che.selenium.core.client.TestProjectServiceClient;
 import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
-import org.eclipse.che.selenium.core.user.DefaultTestUser;
-import org.eclipse.che.selenium.core.constant.TestMenuCommandsConstants;
 import org.eclipse.che.selenium.core.project.ProjectTemplates;
 import org.eclipse.che.selenium.core.workspace.TestWorkspace;
 import org.eclipse.che.selenium.pageobject.CodenvyEditor;
@@ -103,14 +101,16 @@ public class FindUsagesBaseOperationTest {
     findUsages.waitFindUsagesPanelIsOpen();
     findUsages.waitExpectedTextInFindUsagesPanel(EXPECTED_TEXT);
     findUsages.waitSelectedElementInFindUsagesPanel("numGuessByUser");
-        // Check basic operations of the 'find usages' panel
-        editor.selectTabByName("AppController");
-        editor.setCursorToDefinedLineAndChar(26, 17);
-        menu.runCommand(TestMenuCommandsConstants.Assistant.ASSISTANT, TestMenuCommandsConstants.Assistant.FIND_USAGES);
-        loader.waitOnClosed();
-        findUsages.waitFindUsagesPanelIsOpen();
-        findUsages.waitExpectedTextInFindUsagesPanel(EXPECTED_TEXT);
-        findUsages.waitSelectedElementInFindUsagesPanel("numGuessByUser");
+    // Check basic operations of the 'find usages' panel
+    editor.selectTabByName("AppController");
+    editor.setCursorToDefinedLineAndChar(26, 17);
+    menu.runCommand(
+        TestMenuCommandsConstants.Assistant.ASSISTANT,
+        TestMenuCommandsConstants.Assistant.FIND_USAGES);
+    loader.waitOnClosed();
+    findUsages.waitFindUsagesPanelIsOpen();
+    findUsages.waitExpectedTextInFindUsagesPanel(EXPECTED_TEXT);
+    findUsages.waitSelectedElementInFindUsagesPanel("numGuessByUser");
 
     // Check nodes in the 'find usages' panel by 'double click' and click on the icon node
     findUsages.clickOnIconNodeInFindUsagesPanel(PROJECT_NAME);

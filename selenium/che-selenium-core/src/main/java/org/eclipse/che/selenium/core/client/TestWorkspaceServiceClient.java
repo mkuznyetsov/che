@@ -20,6 +20,7 @@ import com.google.inject.Singleton;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.che.api.core.NotFoundException;
@@ -222,15 +223,13 @@ public class TestWorkspaceServiceClient {
 
     ensureRunningStatus(workspace);
 
-
-      Map<String, ? extends Machine> machines = workspace.getRuntime()
-                                                         .getMachines();
-      for (Machine machine : machines.values()) {
-          if (machine.getServers().get("wsagent/http") != null) {
-              return machine.getServers().get(exposedPort);
-          }
+    Map<String, ? extends Machine> machines = workspace.getRuntime().getMachines();
+    for (Machine machine : machines.values()) {
+      if (machine.getServers().get("wsagent/http") != null) {
+        return machine.getServers().get(exposedPort);
       }
-      return null;
+    }
+    return null;
   }
 
   /**

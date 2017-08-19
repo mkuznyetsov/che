@@ -10,12 +10,11 @@
  */
 package org.eclipse.che.selenium.testrunner;
 
-
-import org.eclipse.che.api.core.model.workspace.config.Command;
+import static org.eclipse.che.selenium.core.constant.TestGoalsConstants.TEST;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.eclipse.che.api.core.model.machine.Command;
+import org.eclipse.che.api.core.model.workspace.config.Command;
 
 /** @author Vitalii Parfonov */
 public class CompileCommand implements Command {

@@ -37,24 +37,28 @@ public class Consoles {
   private final WebDriverWait loadPageDriverWait;
   private final WebDriverWait updateProjDriverWait;
 
-    public static final String PROCESS_NAME_XPATH           = "//span[text()='%s']";
-    public static final String PROCESSES_MAIN_AREA          = "//div[@role='toolbar-header']//div[text()='Processes']";
-    public static final String CLOSE_PROCESS_ICON           =
-            "//div[@id='gwt-debug-consolesPanel']//ul//span[text()='%s']/parent::span/span";
-    public static final String TAB_PROCESS_NAME             = "//div[@id='gwt-debug-multiSplitPanel-tabsPanel']//div[text()='%s']";
-    public static final String TAB_PROCESS_CLOSE_ICON       =
-            "//div[@id='gwt-debug-multiSplitPanel-tabsPanel']//div[text()='%s']/following-sibling::div";
-    public static final String DEBUG_TAB                    = "gwt-debug-partButton-Debug";
-    public static final String OPEN_SSH_TERMINAL            = "//span[text()='SSH']";
-    public static final String OPEN_NEW_TERMINAL            = "//div[@id='gwt-debug-process-tree']//span/span";
-    public static final String CLOSE_TERMINAL_CONSOLES_ICON = "//span[text()='Terminal']/preceding::span[2]";
-    public static final String PROCESSES_TAB                = "gwt-debug-partButton-Processes";
-    public static final String MAXIMIZE_PANEL_ICON          =
-            "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-maximizeButton']";
-    public static final String HIDE_CONSOLES_ICON           =
-            "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-hideButton']";
-    public static final String PREVIEW_URL                  = "//div[@active]//a[@href]";
-    public static final String COMMAND_CONSOLE_ID           = "//div[@active]//div[@id='gwt-debug-commandConsoleLines']";
+  public static final String PROCESS_NAME_XPATH = "//span[text()='%s']";
+  public static final String PROCESSES_MAIN_AREA =
+      "//div[@role='toolbar-header']//div[text()='Processes']";
+  public static final String CLOSE_PROCESS_ICON =
+      "//div[@id='gwt-debug-consolesPanel']//ul//span[text()='%s']/parent::span/span";
+  public static final String TAB_PROCESS_NAME =
+      "//div[@id='gwt-debug-multiSplitPanel-tabsPanel']//div[text()='%s']";
+  public static final String TAB_PROCESS_CLOSE_ICON =
+      "//div[@id='gwt-debug-multiSplitPanel-tabsPanel']//div[text()='%s']/following-sibling::div";
+  public static final String DEBUG_TAB = "gwt-debug-partButton-Debug";
+  public static final String OPEN_SSH_TERMINAL = "//span[text()='SSH']";
+  public static final String OPEN_NEW_TERMINAL = "//div[@id='gwt-debug-process-tree']//span/span";
+  public static final String CLOSE_TERMINAL_CONSOLES_ICON =
+      "//span[text()='Terminal']/preceding::span[2]";
+  public static final String PROCESSES_TAB = "gwt-debug-partButton-Processes";
+  public static final String MAXIMIZE_PANEL_ICON =
+      "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-maximizeButton']";
+  public static final String HIDE_CONSOLES_ICON =
+      "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-hideButton']";
+  public static final String PREVIEW_URL = "//div[@active]//a[@href]";
+  public static final String COMMAND_CONSOLE_ID =
+      "//div[@active]//div[@id='gwt-debug-commandConsoleLines']";
 
   protected final SeleniumWebDriver seleniumWebDriver;
   private final Loader loader;
@@ -151,18 +155,17 @@ public class Consoles {
         visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
   }
 
-    /**
-     * wait that process is present into console 'Processes' tree
-     *
-     * @param nameProcess
-     *         is process into console 'Processes' tree
-     * @param timeout
-     *         is timeout in seconds defined by user
-     */
-    public void waitProcessInProcessConsoleTree(String nameProcess, int timeout) {
-        new WebDriverWait(seleniumWebDriver, timeout)
-                .until(visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
-    }
+  /**
+   * wait that process is present into console 'Processes' tree
+   *
+   * @param nameProcess is process into console 'Processes' tree
+   * @param timeout is timeout in seconds defined by user
+   */
+  public void waitProcessInProcessConsoleTree(String nameProcess, int timeout) {
+    new WebDriverWait(seleniumWebDriver, timeout)
+        .until(
+            visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
+  }
 
   /**
    * wait process name is not present into console 'Processes' tree
@@ -185,20 +188,19 @@ public class Consoles {
         .click();
   }
 
-    /**
-     * select process into console by tab name
-     *
-     * @param tabNameProcess
-     *         is tab name of process
-     */
-    public void selectProcessByTabName(String tabNameProcess) {
-        loader.waitOnClosed();
-        new WebDriverWait(seleniumWebDriver, REDRAW_UI_ELEMENTS_TIMEOUT_SEC).until(visibilityOfElementLocated
-                                                                                           (By.xpath(String.format(TAB_PROCESS_NAME,
-                                                                                                                   tabNameProcess))))
-                                                                            .click();
-        loader.waitOnClosed();
-    }
+  /**
+   * select process into console by tab name
+   *
+   * @param tabNameProcess is tab name of process
+   */
+  public void selectProcessByTabName(String tabNameProcess) {
+    loader.waitOnClosed();
+    new WebDriverWait(seleniumWebDriver, REDRAW_UI_ELEMENTS_TIMEOUT_SEC)
+        .until(
+            visibilityOfElementLocated(By.xpath(String.format(TAB_PROCESS_NAME, tabNameProcess))))
+        .click();
+    loader.waitOnClosed();
+  }
 
   /**
    * wait tab name of process is present

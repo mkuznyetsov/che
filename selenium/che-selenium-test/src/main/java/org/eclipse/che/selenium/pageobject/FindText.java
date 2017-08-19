@@ -44,25 +44,27 @@ public class FindText {
     PageFactory.initElements(seleniumWebDriver, this);
   }
 
-    private interface Locators {
-        String MAIN_FORM                 = "gwt-debug-text-search-mainPanel";
-        String FIND_TEXT_INPUT           = "gwt-debug-text-search-text";
-        String WHOLE_WORD_CHECKLBOX_SPAN = "gwt-debug-wholeWordsOnly-selector";
-        String WHOLE_WORD_CHECKLBOX_INP  = "gwt-debug-wholeWordsOnly-selector-input";
-        String SEARCH_ROOT_CHECKBOX_SPAN = "//div[text()='Scope']/following::span[1]";
-        String SEARCH_ROOT_CHECKBOX_INP  = "//div[text()='Scope']/following::input[1]";
-        String SEARCH_DIR_FIELD          = "gwt-debug-text-search-directory";
-        String SEARCH_DIR_BUTTON         = "gwt-debug-text-search-directory-button";
-        String FILE_MASK_CHECKBOX_SPAN   = "//div[text()='File name filter']/following::span[1]";
-        String FILE_MASK_CHECKBOX_INP    = "//div[text()='File name filter']/following::input[1]";
-        String FILE_MASK_FIELD           = "gwt-debug-text-search-files";
-        String CANCEL_BUTTON             = "search-cancel-button";
-        String SEARCH_BUTTON             = "search-button";
-        String FIND_INFO_PANEL           = "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-partStackContent']";
-        String FIND_TAB                  = "gwt-debug-partButton-Find";
-        String HIDE_FIND_PANEL           = "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-hideButton']";
-        String ITEM_FIND_PANEL           = "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-partStackContent']//div[text()='%s']";
-    }
+  private interface Locators {
+    String MAIN_FORM = "gwt-debug-text-search-mainPanel";
+    String FIND_TEXT_INPUT = "gwt-debug-text-search-text";
+    String WHOLE_WORD_CHECKLBOX_SPAN = "gwt-debug-wholeWordsOnly-selector";
+    String WHOLE_WORD_CHECKLBOX_INP = "gwt-debug-wholeWordsOnly-selector-input";
+    String SEARCH_ROOT_CHECKBOX_SPAN = "//div[text()='Scope']/following::span[1]";
+    String SEARCH_ROOT_CHECKBOX_INP = "//div[text()='Scope']/following::input[1]";
+    String SEARCH_DIR_FIELD = "gwt-debug-text-search-directory";
+    String SEARCH_DIR_BUTTON = "gwt-debug-text-search-directory-button";
+    String FILE_MASK_CHECKBOX_SPAN = "//div[text()='File name filter']/following::span[1]";
+    String FILE_MASK_CHECKBOX_INP = "//div[text()='File name filter']/following::input[1]";
+    String FILE_MASK_FIELD = "gwt-debug-text-search-files";
+    String CANCEL_BUTTON = "search-cancel-button";
+    String SEARCH_BUTTON = "search-button";
+    String FIND_INFO_PANEL =
+        "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-partStackContent']";
+    String FIND_TAB = "gwt-debug-partButton-Find";
+    String HIDE_FIND_PANEL = "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-hideButton']";
+    String ITEM_FIND_PANEL =
+        "//div[@id='gwt-debug-infoPanel']//div[@id='gwt-debug-partStackContent']//div[text()='%s']";
+  }
 
   @FindBy(id = Locators.WHOLE_WORD_CHECKLBOX_INP)
   WebElement wholeWordCheckBox;

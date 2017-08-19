@@ -188,46 +188,46 @@ public class FindTextFeatureTest {
     editor.waitActiveTabFileName(fileNameCreatedFromAPI);
   }
 
-    @Test(priority = 2)
-    public void checkFindTextBasic() {
-        projectExplorer.waitProjectExplorer();
-        projectExplorer.selectItem(PROJECT_NAME);
-        menu.runCommand(TestMenuCommandsConstants.Edit.EDIT, TestMenuCommandsConstants.Edit.FIND);
-        findText.waitFindTextMainFormIsOpen();
-        findText.waitSearchBtnMainFormIsDisabled();
-        findText.typeTextIntoFindField("dddhhh");
-        findText.waitTextIntoFindField("dddhhh");
-        loader.waitOnClosed();
-        findText.clickOnSearchButtonMainForm();
-        findText.waitFindInfoPanelIsOpen();
-        findText.waitExpectedTextInFindInfoPanel(FIND_NOTHING);
+  @Test(priority = 2)
+  public void checkFindTextBasic() {
+    projectExplorer.waitProjectExplorer();
+    projectExplorer.selectItem(PROJECT_NAME);
+    menu.runCommand(TestMenuCommandsConstants.Edit.EDIT, TestMenuCommandsConstants.Edit.FIND);
+    findText.waitFindTextMainFormIsOpen();
+    findText.waitSearchBtnMainFormIsDisabled();
+    findText.typeTextIntoFindField("dddhhh");
+    findText.waitTextIntoFindField("dddhhh");
+    loader.waitOnClosed();
+    findText.clickOnSearchButtonMainForm();
+    findText.waitFindInfoPanelIsOpen();
+    findText.waitExpectedTextInFindInfoPanel(FIND_NOTHING);
 
-        findText.clickHideBtnFindInfoPanel();
-        projectExplorer.selectItem(PROJECT_NAME);
-        findText.launchFindFormByKeyboard();
-        findText.waitFindTextMainFormIsOpen();
-        findText.typeTextIntoFindField("String");
-        findText.waitTextIntoFindField("String");
-        findText.setAndWaitStateSearchRootCheckbox(false);
-        findText.waitPathIntoRootField("/" + PROJECT_NAME);
-        findText.clickOnSearchButtonMainForm();
-        findText.waitFindInfoPanelIsOpen();
-        findText.waitExpectedTextInFindInfoPanel(PR_1_EXPECTED_TEXT_1);
-        findText.selectItemInFindInfoPanel("guess_num.jsp");
-        findText.sendCommandByKeyboardInFindInfoPanel(Keys.ENTER.toString());
-        editor.waitActiveEditor();
-        editor.waitActiveTabFileName("guess_num.jsp");
-        editor.waitTextIntoEditor("String");
-        findText.selectItemInFindInfoPanelByDoubleClick("SayHello.java");
-        editor.waitActiveEditor();
-        editor.waitActiveTabFileName("SayHello");
-        editor.waitTextIntoEditor("String");
-        findText.selectItemInFindInfoPanel("guess_num.jsp");
-        findText.sendCommandByKeyboardInFindInfoPanel(Keys.ARROW_UP.toString());
-        findText.sendCommandByKeyboardInFindInfoPanel(Keys.ENTER.toString());
-        editor.waitActiveTabFileName("SayHelloTest");
-        editor.closeAllTabs();
-    }
+    findText.clickHideBtnFindInfoPanel();
+    projectExplorer.selectItem(PROJECT_NAME);
+    findText.launchFindFormByKeyboard();
+    findText.waitFindTextMainFormIsOpen();
+    findText.typeTextIntoFindField("String");
+    findText.waitTextIntoFindField("String");
+    findText.setAndWaitStateSearchRootCheckbox(false);
+    findText.waitPathIntoRootField("/" + PROJECT_NAME);
+    findText.clickOnSearchButtonMainForm();
+    findText.waitFindInfoPanelIsOpen();
+    findText.waitExpectedTextInFindInfoPanel(PR_1_EXPECTED_TEXT_1);
+    findText.selectItemInFindInfoPanel("guess_num.jsp");
+    findText.sendCommandByKeyboardInFindInfoPanel(Keys.ENTER.toString());
+    editor.waitActiveEditor();
+    editor.waitActiveTabFileName("guess_num.jsp");
+    editor.waitTextIntoEditor("String");
+    findText.selectItemInFindInfoPanelByDoubleClick("SayHello.java");
+    editor.waitActiveEditor();
+    editor.waitActiveTabFileName("SayHello");
+    editor.waitTextIntoEditor("String");
+    findText.selectItemInFindInfoPanel("guess_num.jsp");
+    findText.sendCommandByKeyboardInFindInfoPanel(Keys.ARROW_UP.toString());
+    findText.sendCommandByKeyboardInFindInfoPanel(Keys.ENTER.toString());
+    editor.waitActiveTabFileName("SayHelloTest");
+    editor.closeAllTabs();
+  }
 
   @Test(priority = 3)
   public void checkFindWholeWordOnly() {

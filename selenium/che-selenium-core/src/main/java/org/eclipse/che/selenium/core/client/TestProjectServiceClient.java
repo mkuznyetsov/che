@@ -23,8 +23,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import org.eclipse.che.api.core.model.project.ProjectConfig;
+import java.util.Map;
 import org.eclipse.che.api.core.model.workspace.Workspace;
+import org.eclipse.che.api.core.model.workspace.runtime.Machine;
 import org.eclipse.che.api.core.rest.HttpJsonRequestFactory;
 import org.eclipse.che.api.workspace.shared.dto.ProjectConfigDto;
 import org.eclipse.che.commons.lang.IoUtil;
@@ -212,9 +213,8 @@ public class TestProjectServiceClient {
     Workspace workspace = workspaceServiceClient.getById(workspaceId);
     workspaceServiceClient.ensureRunningStatus(workspace);
 
-    Map<String, ? extends Machine> machines = workspaceServiceClient.getById(workspaceId)
-                                                                    .getRuntime()
-                                                                    .getMachines();
+    Map<String, ? extends Machine> machines =
+        workspaceServiceClient.getById(workspaceId).getRuntime().getMachines();
     for (Machine machine : machines.values()) {
       if (machine.getServers().get("wsagent/http") != null) {
         return machine.getServers().get("wsagent/http").getUrl() + "/project";

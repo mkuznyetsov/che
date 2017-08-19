@@ -141,24 +141,24 @@ public class AutocompleteFeaturesInEditorTest {
     ide.open(workspace);
   }
 
-    @Test
-    public void createJavaSpringProjectAndTestEditor() {
-        projectExplorer.waitProjectExplorer();
-        projectExplorer.waitItem(PROJECT_NAME);
-        notificationsPopupPanel.waitProgressPopupPanelClose();
-        projectExplorer.quickExpandWithJavaScript();
-        projectExplorer.openItemByVisibleNameInExplorer("AppController.java");
-        editor.waitActiveEditor();
-        loader.waitOnClosed();
-        reparseEditorCode();
-        editor.setCursorToLine(37);
-        editor.typeTextIntoEditor(Keys.END.toString());
-        editor.typeTextIntoEditor(Keys.ENTER.toString());
-        editor.launchAutocompleteAndWaitContainer();
-        String textFromEditorAfterFirstCall = editor.getAllVisibleTextFromAutocomplete();
-        for (String content : autocompleteContentAfterFirst) {
-            assertTrue(textFromEditorAfterFirstCall.contains(content));
-        }
+  @Test
+  public void createJavaSpringProjectAndTestEditor() {
+    projectExplorer.waitProjectExplorer();
+    projectExplorer.waitItem(PROJECT_NAME);
+    notificationsPopupPanel.waitProgressPopupPanelClose();
+    projectExplorer.quickExpandWithJavaScript();
+    projectExplorer.openItemByVisibleNameInExplorer("AppController.java");
+    editor.waitActiveEditor();
+    loader.waitOnClosed();
+    reparseEditorCode();
+    editor.setCursorToLine(37);
+    editor.typeTextIntoEditor(Keys.END.toString());
+    editor.typeTextIntoEditor(Keys.ENTER.toString());
+    editor.launchAutocompleteAndWaitContainer();
+    String textFromEditorAfterFirstCall = editor.getAllVisibleTextFromAutocomplete();
+    for (String content : autocompleteContentAfterFirst) {
+      assertTrue(textFromEditorAfterFirstCall.contains(content));
+    }
 
     editor.enterAutocompleteProposal("result : String");
     projectExplorer.openItemByVisibleNameInExplorer("AppController.java");

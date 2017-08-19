@@ -923,33 +923,36 @@ public class Git {
     loader.waitOnClosed();
   }
 
+  public void importJavaAppAndCheckMavenPluginBar(
+      String url, String nameApp, String typeProject, String expectedMessage) {
+    loader.waitOnClosed();
+    menu.runCommand(
+        TestMenuCommandsConstants.Workspace.WORKSPACE,
+        TestMenuCommandsConstants.Workspace.IMPORT_PROJECT);
+    importProject.waitAndTypeImporterAsGitInfo(url, nameApp);
+    projectWizard.waitCreateProjectWizardForm();
+    projectWizard.selectTypeProject(typeProject);
+    loader.waitOnClosed();
+    projectWizard.clickSaveButton();
+    loader.waitOnClosed();
+    projectWizard.waitCreateProjectWizardFormIsClosed();
+    projectExplorer.waitItem(nameApp);
+    loader.waitOnClosed();
+  }
 
-    public void importJavaAppAndCheckMavenPluginBar(String url, String nameApp, String typeProject, String expectedMessage) {
-        loader.waitOnClosed();
-        menu.runCommand(TestMenuCommandsConstants.Workspace.WORKSPACE, TestMenuCommandsConstants.Workspace.IMPORT_PROJECT);
-        importProject.waitAndTypeImporterAsGitInfo(url, nameApp);
-        projectWizard.waitCreateProjectWizardForm();
-        projectWizard.selectTypeProject(typeProject);
-        loader.waitOnClosed();
-        projectWizard.clickSaveButton();
-        loader.waitOnClosed();
-        projectWizard.waitCreateProjectWizardFormIsClosed();
-        projectExplorer.waitItem(nameApp);
-        loader.waitOnClosed();
-    }
-
-    public void importJavaAppAndCheckMavenPluginBar(String url, String nameApp, String typeProject) {
-        loader.waitOnClosed();
-        menu.runCommand(TestMenuCommandsConstants.Workspace.WORKSPACE, TestMenuCommandsConstants.Workspace.IMPORT_PROJECT);
-        importProject.waitAndTypeImporterAsGitInfo(url, nameApp);
-        projectWizard.waitCreateProjectWizardForm();
-        projectWizard.selectTypeProject(typeProject);
-        loader.waitOnClosed();
-        projectWizard.clickSaveButton();
-        loader.waitOnClosed();
-        projectWizard.waitCreateProjectWizardFormIsClosed();
-        projectExplorer.waitItem(nameApp);
-        loader.waitOnClosed();
-    }
-
+  public void importJavaAppAndCheckMavenPluginBar(String url, String nameApp, String typeProject) {
+    loader.waitOnClosed();
+    menu.runCommand(
+        TestMenuCommandsConstants.Workspace.WORKSPACE,
+        TestMenuCommandsConstants.Workspace.IMPORT_PROJECT);
+    importProject.waitAndTypeImporterAsGitInfo(url, nameApp);
+    projectWizard.waitCreateProjectWizardForm();
+    projectWizard.selectTypeProject(typeProject);
+    loader.waitOnClosed();
+    projectWizard.clickSaveButton();
+    loader.waitOnClosed();
+    projectWizard.waitCreateProjectWizardFormIsClosed();
+    projectExplorer.waitItem(nameApp);
+    loader.waitOnClosed();
+  }
 }

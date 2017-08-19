@@ -59,41 +59,53 @@ public class Refactor {
         "//div[text()='Choose destination for']//following::div[text()=' %s']";
     String MOVE_EXPAND_TREE_ICON = "//div[text()=' %s']/preceding::div[1]";
 
-        String PREVIEW_FORM      = "//div[text()='Rename Item']/ancestor::div[3]";
-        String PREVIEW_OK_BUTTON = "preview-ok-button";
+    String PREVIEW_FORM = "//div[text()='Rename Item']/ancestor::div[3]";
+    String PREVIEW_OK_BUTTON = "preview-ok-button";
 
-        String NEW_NAME_FIELD                      = "//div[text()='New name:']/following-sibling::input";
-        String UPDATE_REFERENCES_CHECKBOX_SPAN     = "//div[contains(text(), 'Update references')]/preceding-sibling::span";
-        String UPDATE_REFERENCES_CHECKBOX          = "//div[contains(text(), 'Update references')]/preceding-sibling::span/input";
-        String UPDATE_VARIABLES_METHODS_CHECKBOX   = "//div[text()='Update similarly named variables and methods']/preceding::span[1]";
-        String RENAME_SUBPACKAGES_CHECKBOX_SPAN    = "//div[text()='Rename subpackages']/preceding-sibling::span";
-        String RENAME_SUBPACKAGES_CHECKBOX         = "//div[text()='Rename subpackages']/preceding-sibling::span/input";
-        String UPDATE_COMMENTS_STRINGS_CHECKBOX    = "//div[text()='Update textual occurrences in comments and strings (forces preview)']" +
-                                                     "/preceding-sibling::span/input";
-        String UPDATE_COMMENT_STRING_CHECKBOX_SPAN = "//div[text()='Update textual occurrences in comments and strings (forces preview)']" +
-                                                     "/preceding-sibling::span";
-        String UPDATE_NON_JAVA_FILES_CHECKBOX      =
-                "//div[text()='Update fully qualified names in non-Java text files (forces preview)']" +
-                "/preceding-sibling::span/input";
-        String UPDATE_NON_JAVA_FILES_CHECKBOX_SPAN =
-                "//div[text()='Update fully qualified names in non-Java text files (forces preview)']" +
-                "/preceding-sibling::span";
-        String NAME_PATTERNS_FIELD                 = "//div[text()='File name patterns:']/following-sibling::input";
-        String ERROR_CONTAINER_OF_COMPILATION_FORM = "//div[@style[contains(.,'color: rgb(195, 77, 77)')]]";
-      String TEXT_MESSAGE_MOVE_FORM              = "//div[text()='Move item']/parent::div/parent::div/parent::div//div[text()='%s']";        String ITEM_CHANGES_TO_BE_PERFORMED        = "//div[contains(text(),'Rename')]/ancestor::div[3]//div[contains(text(),'%s')]";
-        String EXPAND_ITEM_ICON                    =
-                "//div[@id='tree-of-changes']//div[contains(text(),'%s')]//preceding::td[1]";
-        String FLAG_ITEM                           =
-                "//div[@id='tree-of-changes']//div[contains(text(),'%s')]/preceding-sibling::span";
-        String FLAG_ITEM_INPUT                     =
-                "//div[@id='tree-of-changes']//div[contains(text(),'%s')]/preceding-sibling::span/input";
-        String PREVIEW_EDITOR_FRAME                = "//iframe[contains(@src, 'Compare.html')]";
-        String LEFT_EDITOR                         = "//div[@id='compareParentDiv_left_editor_id']//div[@class='textviewContent']";
-        String RIGHT_EDITOR                        = "//div[@id='compareParentDiv_right_editor_id']//div[@class='textviewContent']";
-        String LEASED_LINE_LEFT_EDITOR             = "//div[contains(@class,'annotationLine addedBlockDiff')]";
-        String LEASED_LINE_RIGHT_EDITOR            = "//div[contains(@class,'annotationLine deletedBlockDiff')]";
-
-    }
+    String NEW_NAME_FIELD = "//div[text()='New name:']/following-sibling::input";
+    String UPDATE_REFERENCES_CHECKBOX_SPAN =
+        "//div[contains(text(), 'Update references')]/preceding-sibling::span";
+    String UPDATE_REFERENCES_CHECKBOX =
+        "//div[contains(text(), 'Update references')]/preceding-sibling::span/input";
+    String UPDATE_VARIABLES_METHODS_CHECKBOX =
+        "//div[text()='Update similarly named variables and methods']/preceding::span[1]";
+    String RENAME_SUBPACKAGES_CHECKBOX_SPAN =
+        "//div[text()='Rename subpackages']/preceding-sibling::span";
+    String RENAME_SUBPACKAGES_CHECKBOX =
+        "//div[text()='Rename subpackages']/preceding-sibling::span/input";
+    String UPDATE_COMMENTS_STRINGS_CHECKBOX =
+        "//div[text()='Update textual occurrences in comments and strings (forces preview)']"
+            + "/preceding-sibling::span/input";
+    String UPDATE_COMMENT_STRING_CHECKBOX_SPAN =
+        "//div[text()='Update textual occurrences in comments and strings (forces preview)']"
+            + "/preceding-sibling::span";
+    String UPDATE_NON_JAVA_FILES_CHECKBOX =
+        "//div[text()='Update fully qualified names in non-Java text files (forces preview)']"
+            + "/preceding-sibling::span/input";
+    String UPDATE_NON_JAVA_FILES_CHECKBOX_SPAN =
+        "//div[text()='Update fully qualified names in non-Java text files (forces preview)']"
+            + "/preceding-sibling::span";
+    String NAME_PATTERNS_FIELD = "//div[text()='File name patterns:']/following-sibling::input";
+    String ERROR_CONTAINER_OF_COMPILATION_FORM =
+        "//div[@style[contains(.,'color: rgb(195, 77, 77)')]]";
+    String TEXT_MESSAGE_MOVE_FORM =
+        "//div[text()='Move item']/parent::div/parent::div/parent::div//div[text()='%s']";
+    String ITEM_CHANGES_TO_BE_PERFORMED =
+        "//div[contains(text(),'Rename')]/ancestor::div[3]//div[contains(text(),'%s')]";
+    String EXPAND_ITEM_ICON =
+        "//div[@id='tree-of-changes']//div[contains(text(),'%s')]//preceding::td[1]";
+    String FLAG_ITEM =
+        "//div[@id='tree-of-changes']//div[contains(text(),'%s')]/preceding-sibling::span";
+    String FLAG_ITEM_INPUT =
+        "//div[@id='tree-of-changes']//div[contains(text(),'%s')]/preceding-sibling::span/input";
+    String PREVIEW_EDITOR_FRAME = "//iframe[contains(@src, 'Compare.html')]";
+    String LEFT_EDITOR =
+        "//div[@id='compareParentDiv_left_editor_id']//div[@class='textviewContent']";
+    String RIGHT_EDITOR =
+        "//div[@id='compareParentDiv_right_editor_id']//div[@class='textviewContent']";
+    String LEASED_LINE_LEFT_EDITOR = "//div[contains(@class,'annotationLine addedBlockDiff')]";
+    String LEASED_LINE_RIGHT_EDITOR = "//div[contains(@class,'annotationLine deletedBlockDiff')]";
+  }
 
   @FindBy(xpath = Locators.RENAME_PACKAGE_FORM)
   WebElement renamePackageForm;
@@ -572,17 +584,17 @@ public class Refactor {
                 By.xpath(Locators.ERROR_CONTAINER_OF_COMPILATION_FORM), mess));
   }
 
-
-    /**
-     * wait text message in the 'Move item' form
-     *
-     * @param mess
-     *         expected message
-     */
-    public void waitTextInMoveForm(String mess) {
-        new WebDriverWait(seleniumWebDriver, LOAD_PAGE_TIMEOUT_SEC).until(ExpectedConditions.presenceOfElementLocated(
+  /**
+   * wait text message in the 'Move item' form
+   *
+   * @param mess expected message
+   */
+  public void waitTextInMoveForm(String mess) {
+    new WebDriverWait(seleniumWebDriver, LOAD_PAGE_TIMEOUT_SEC)
+        .until(
+            ExpectedConditions.presenceOfElementLocated(
                 By.xpath(String.format(Locators.TEXT_MESSAGE_MOVE_FORM, mess))));
-    }
+  }
 
   /**
    * check open state of refactoring wizard

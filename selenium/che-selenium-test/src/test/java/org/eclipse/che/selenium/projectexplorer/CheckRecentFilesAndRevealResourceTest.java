@@ -65,21 +65,20 @@ public class CheckRecentFilesAndRevealResourceTest {
     ide.open(testWorkspace);
   }
 
-    @Test
-    public void checkRevealResourceTest() {
-        projectExplorer.waitProjectExplorer();
-        projectExplorer.quickRevealToItemWithJavaScript(
-                PATH_FOR_EXPAND_FIRST_PROJECT);
-        projectExplorer.openItemByPath(PATH_TO_FILE_FIRST_PROJECT);
-        loader.waitOnClosed();
-        editor.waitActiveEditor();
-        editor.setCursorToDefinedLineAndChar(5, 1);
-        projectExplorer.collapseProjectTreeByOptionsButton();
-        projectExplorer.waitDisappearItemByPath(PATH_TO_FILE_FIRST_PROJECT);
-        menu.runCommand(TestMenuCommandsConstants.Edit.EDIT,
-                        TestMenuCommandsConstants.Edit.REVEAL_RESOURCE);
-        projectExplorer.waitItem(PATH_TO_FILE_FIRST_PROJECT);
-    }
+  @Test
+  public void checkRevealResourceTest() {
+    projectExplorer.waitProjectExplorer();
+    projectExplorer.quickRevealToItemWithJavaScript(PATH_FOR_EXPAND_FIRST_PROJECT);
+    projectExplorer.openItemByPath(PATH_TO_FILE_FIRST_PROJECT);
+    loader.waitOnClosed();
+    editor.waitActiveEditor();
+    editor.setCursorToDefinedLineAndChar(5, 1);
+    projectExplorer.collapseProjectTreeByOptionsButton();
+    projectExplorer.waitDisappearItemByPath(PATH_TO_FILE_FIRST_PROJECT);
+    menu.runCommand(
+        TestMenuCommandsConstants.Edit.EDIT, TestMenuCommandsConstants.Edit.REVEAL_RESOURCE);
+    projectExplorer.waitItem(PATH_TO_FILE_FIRST_PROJECT);
+  }
 
   @Test
   public void checkRecentFilesTest() {

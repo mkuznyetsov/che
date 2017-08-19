@@ -78,14 +78,14 @@ public class ResolveDependencyAfterRecreateProjectTest {
     editor.waitAllMarkersDisappear(ERROR_MARKER);
   }
 
-    public void removeProjectFromUI() {
-        projectExplorer.openContextMenuByPathSelectedItem(NAME_OF_THE_PROJECT_1);
-        projectExplorer.clickOnItemInContextMenu(TestProjectExplorerContextMenuConstants.DELETE);
-        askDialog.waitFormToOpen();
-        askDialog.clickOkBtn();
-        askDialog.waitFormToClose();
-        projectExplorer.waitItemIsNotPresentVisibleArea(NAME_OF_THE_PROJECT_1);
-    }
+  public void removeProjectFromUI() {
+    projectExplorer.openContextMenuByPathSelectedItem(NAME_OF_THE_PROJECT_1);
+    projectExplorer.clickOnItemInContextMenu(TestProjectExplorerContextMenuConstants.DELETE);
+    askDialog.waitFormToOpen();
+    askDialog.clickOkBtn();
+    askDialog.waitFormToClose();
+    projectExplorer.waitItemIsNotPresentVisibleArea(NAME_OF_THE_PROJECT_1);
+  }
 
   /**
    * create project with UI
