@@ -1,25 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2012-2017 Codenvy, S.A.
+/*
+ * Copyright (c) 2012-2017 Red Hat, Inc.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   Codenvy, S.A. - initial API and implementation
- *******************************************************************************/
+ *   Red Hat, Inc. - initial API and implementation
+ */
 package org.eclipse.che.selenium.pageobject;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import org.eclipse.che.selenium.core.SeleniumWebDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.eclipse.che.selenium.core.constant.TestTimeoutsConstants.LOAD_PAGE_TIMEOUT_SEC;
 import static org.eclipse.che.selenium.core.constant.TestTimeoutsConstants.REDRAW_UI_ELEMENTS_TIMEOUT_SEC;
@@ -30,15 +19,23 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentI
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
-/**
- * @author Aleksandr Shmaraev
- */
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import org.eclipse.che.selenium.core.SeleniumWebDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+/** @author Aleksandr Shmaraev */
 @Singleton
 public class Consoles {
 
-    private final WebDriverWait redrawDriverWait;
-    private final WebDriverWait loadPageDriverWait;
-    private final WebDriverWait updateProjDriverWait;
+  private final WebDriverWait redrawDriverWait;
+  private final WebDriverWait loadPageDriverWait;
+  private final WebDriverWait updateProjDriverWait;
 
     public static final String PROCESS_NAME_XPATH           = "//span[text()='%s']";
     public static final String PROCESSES_MAIN_AREA          = "//div[@role='toolbar-header']//div[text()='Processes']";
@@ -59,111 +56,100 @@ public class Consoles {
     public static final String PREVIEW_URL                  = "//div[@active]//a[@href]";
     public static final String COMMAND_CONSOLE_ID           = "//div[@active]//div[@id='gwt-debug-commandConsoleLines']";
 
-    protected final SeleniumWebDriver seleniumWebDriver;
-    private final   Loader            loader;
+  protected final SeleniumWebDriver seleniumWebDriver;
+  private final Loader loader;
 
-    @Inject
-    public Consoles(SeleniumWebDriver seleniumWebDriver, Loader loader) {
-        this.seleniumWebDriver = seleniumWebDriver;
-        this.loader = loader;
-        redrawDriverWait = new WebDriverWait(seleniumWebDriver, REDRAW_UI_ELEMENTS_TIMEOUT_SEC);
-        loadPageDriverWait = new WebDriverWait(seleniumWebDriver, LOAD_PAGE_TIMEOUT_SEC);
-        updateProjDriverWait = new WebDriverWait(seleniumWebDriver, UPDATING_PROJECT_TIMEOUT_SEC);
-        PageFactory.initElements(seleniumWebDriver, this);
-    }
+  @Inject
+  public Consoles(SeleniumWebDriver seleniumWebDriver, Loader loader) {
+    this.seleniumWebDriver = seleniumWebDriver;
+    this.loader = loader;
+    redrawDriverWait = new WebDriverWait(seleniumWebDriver, REDRAW_UI_ELEMENTS_TIMEOUT_SEC);
+    loadPageDriverWait = new WebDriverWait(seleniumWebDriver, LOAD_PAGE_TIMEOUT_SEC);
+    updateProjDriverWait = new WebDriverWait(seleniumWebDriver, UPDATING_PROJECT_TIMEOUT_SEC);
+    PageFactory.initElements(seleniumWebDriver, this);
+  }
 
-    @FindBy(id = PROCESSES_TAB)
-    WebElement processesTab;
+  @FindBy(id = PROCESSES_TAB)
+  WebElement processesTab;
 
-    @FindBy(id = DEBUG_TAB)
-    WebElement debugTab;
+  @FindBy(id = DEBUG_TAB)
+  WebElement debugTab;
 
-    @FindBy(xpath = OPEN_SSH_TERMINAL)
-    WebElement sshTerminalBtn;
+  @FindBy(xpath = OPEN_SSH_TERMINAL)
+  WebElement sshTerminalBtn;
 
-    @FindBy(xpath = OPEN_NEW_TERMINAL)
-    WebElement openNewTerminal;
+  @FindBy(xpath = OPEN_NEW_TERMINAL)
+  WebElement openNewTerminal;
 
-    @FindBy(xpath = CLOSE_TERMINAL_CONSOLES_ICON)
-    WebElement closeTerminal;
+  @FindBy(xpath = CLOSE_TERMINAL_CONSOLES_ICON)
+  WebElement closeTerminal;
 
-    @FindBy(xpath = HIDE_CONSOLES_ICON)
-    WebElement hideConsolesIcon;
+  @FindBy(xpath = HIDE_CONSOLES_ICON)
+  WebElement hideConsolesIcon;
 
-    @FindBy(xpath = COMMAND_CONSOLE_ID)
-    WebElement consoleContainer;
+  @FindBy(xpath = COMMAND_CONSOLE_ID)
+  WebElement consoleContainer;
 
-    @FindBy(xpath = PREVIEW_URL)
-    WebElement previewUrl;
+  @FindBy(xpath = PREVIEW_URL)
+  WebElement previewUrl;
 
-    @FindBy(xpath = PROCESSES_MAIN_AREA)
-    WebElement processesMainArea;
+  @FindBy(xpath = PROCESSES_MAIN_AREA)
+  WebElement processesMainArea;
 
-    /**
-     * click  on consoles tab in bottom and wait opening console area (terminal on other console )
-     */
-    public void clickOnProcessesTab() {
-        redrawDriverWait.until(visibilityOf(processesTab)).click();
-    }
+  /** click on consoles tab in bottom and wait opening console area (terminal on other console ) */
+  public void clickOnProcessesTab() {
+    redrawDriverWait.until(visibilityOf(processesTab)).click();
+  }
 
-    /**
-     * click  on consoles tab in bottom and wait opening console area (terminal on other console )
-     */
-    public void clickOnDebugTab() {
-        redrawDriverWait.until(visibilityOf(debugTab)).click();
-    }
+  /** click on consoles tab in bottom and wait opening console area (terminal on other console ) */
+  public void clickOnDebugTab() {
+    redrawDriverWait.until(visibilityOf(debugTab)).click();
+  }
 
-    /**
-     * click on preview url link
-     */
-    public void clickOnPreviewUrl() {
-        loadPageDriverWait.until(visibilityOf(previewUrl)).click();
-    }
+  /** click on preview url link */
+  public void clickOnPreviewUrl() {
+    loadPageDriverWait.until(visibilityOf(previewUrl)).click();
+  }
 
-    public void waitExpectedTextIntoPreviewUrl(String expectedText) {
-        redrawDriverWait.until(textToBePresentInElement(previewUrl, expectedText));
-    }
+  public void waitExpectedTextIntoPreviewUrl(String expectedText) {
+    redrawDriverWait.until(textToBePresentInElement(previewUrl, expectedText));
+  }
 
-    /**
-     * Get url for preview.
-     */
-    public String getPreviewUrl() {
-        return loadPageDriverWait.until(visibilityOf(previewUrl)).getText();
-    }
+  /** Get url for preview. */
+  public String getPreviewUrl() {
+    return loadPageDriverWait.until(visibilityOf(previewUrl)).getText();
+  }
 
-    /**
-     * click on the 'Close' icon of the terminal into "Consoles' area
-     */
-    public void closeTerminalIntoConsoles() {
-        loadPageDriverWait.until(elementToBeClickable(closeTerminal)).click();
-    }
+  /** click on the 'Close' icon of the terminal into "Consoles' area */
+  public void closeTerminalIntoConsoles() {
+    loadPageDriverWait.until(elementToBeClickable(closeTerminal)).click();
+  }
 
-    /**
-     * open new terminal
-     */
-    public void openNewTerminalIntoProcesses() {
-        loadPageDriverWait.until(elementToBeClickable(openNewTerminal)).click();
-    }
+  /** open new terminal */
+  public void openNewTerminalIntoProcesses() {
+    loadPageDriverWait.until(elementToBeClickable(openNewTerminal)).click();
+  }
 
-    /**
-     * click on the 'Close' icon of the process into 'Processes' area
-     *
-     * @param nameProcess
-     *         is process into console 'Processes' tree
-     */
-    public void closeProcessInProcessConsoleTreeByName(String nameProcess) {
-        loadPageDriverWait.until(visibilityOfElementLocated(By.xpath(String.format(CLOSE_PROCESS_ICON, nameProcess)))).click();
-    }
+  /**
+   * click on the 'Close' icon of the process into 'Processes' area
+   *
+   * @param nameProcess is process into console 'Processes' tree
+   */
+  public void closeProcessInProcessConsoleTreeByName(String nameProcess) {
+    loadPageDriverWait
+        .until(visibilityOfElementLocated(By.xpath(String.format(CLOSE_PROCESS_ICON, nameProcess))))
+        .click();
+  }
 
-    /**
-     * wait that process is present into console 'Processes' tree
-     *
-     * @param nameProcess
-     *         is process into console 'Processes' tree
-     */
-    public void waitProcessInProcessConsoleTree(String nameProcess) {
-        loadPageDriverWait.until(visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
-    }
+  /**
+   * wait that process is present into console 'Processes' tree
+   *
+   * @param nameProcess is process into console 'Processes' tree
+   */
+  public void waitProcessInProcessConsoleTree(String nameProcess) {
+    loadPageDriverWait.until(
+        visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
+  }
 
     /**
      * wait that process is present into console 'Processes' tree
@@ -178,25 +164,26 @@ public class Consoles {
                 .until(visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
     }
 
-    /**
-     * wait process name is not present into console 'Processes' tree
-     *
-     * @param nameProcess
-     *         is process into console 'Processes' tree
-     */
-    public void waitProcessIsNotPresentInProcessConsoleTree(String nameProcess) {
-        loadPageDriverWait.until(invisibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
-    }
+  /**
+   * wait process name is not present into console 'Processes' tree
+   *
+   * @param nameProcess is process into console 'Processes' tree
+   */
+  public void waitProcessIsNotPresentInProcessConsoleTree(String nameProcess) {
+    loadPageDriverWait.until(
+        invisibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))));
+  }
 
-    /**
-     * select process into 'Process' console tree by name
-     *
-     * @param nameProcess
-     *         is process into console 'Processes' tree
-     */
-    public void selectProcessInProcessConsoleTreeByName(String nameProcess) {
-        loadPageDriverWait.until(visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess)))).click();
-    }
+  /**
+   * select process into 'Process' console tree by name
+   *
+   * @param nameProcess is process into console 'Processes' tree
+   */
+  public void selectProcessInProcessConsoleTreeByName(String nameProcess) {
+    loadPageDriverWait
+        .until(visibilityOfElementLocated(By.xpath(String.format(PROCESS_NAME_XPATH, nameProcess))))
+        .click();
+  }
 
     /**
      * select process into console by tab name
@@ -213,122 +200,102 @@ public class Consoles {
         loader.waitOnClosed();
     }
 
-    /**
-     * wait tab name of process is present
-     *
-     * @param tabNameProcess
-     *         is tab name of process
-     */
-    public void waitTabNameProcessIsPresent(String tabNameProcess) {
-        redrawDriverWait.until(visibilityOfElementLocated(By.xpath(String.format(TAB_PROCESS_NAME, tabNameProcess))));
-    }
+  /**
+   * wait tab name of process is present
+   *
+   * @param tabNameProcess is tab name of process
+   */
+  public void waitTabNameProcessIsPresent(String tabNameProcess) {
+    redrawDriverWait.until(
+        visibilityOfElementLocated(By.xpath(String.format(TAB_PROCESS_NAME, tabNameProcess))));
+  }
 
-    /**
-     * wait tab name of process is not present
-     *
-     * @param tabNameProcess
-     *         is tab name of process
-     */
-    public void waitTabNameProcessIsNotPresent(String tabNameProcess) {
-        redrawDriverWait.until(invisibilityOfElementLocated(By.xpath(String.format(TAB_PROCESS_NAME, tabNameProcess))));
-    }
+  /**
+   * wait tab name of process is not present
+   *
+   * @param tabNameProcess is tab name of process
+   */
+  public void waitTabNameProcessIsNotPresent(String tabNameProcess) {
+    redrawDriverWait.until(
+        invisibilityOfElementLocated(By.xpath(String.format(TAB_PROCESS_NAME, tabNameProcess))));
+  }
 
-    /**
-     * close process by tab name
-     *
-     * @param tabNameProcess
-     *         is tab name of process
-     */
-    public void closeProcessByTabName(String tabNameProcess) {
-        redrawDriverWait.until(elementToBeClickable(By.xpath(String.format(TAB_PROCESS_CLOSE_ICON, tabNameProcess)))).click();
-    }
+  /**
+   * close process by tab name
+   *
+   * @param tabNameProcess is tab name of process
+   */
+  public void closeProcessByTabName(String tabNameProcess) {
+    redrawDriverWait
+        .until(
+            elementToBeClickable(By.xpath(String.format(TAB_PROCESS_CLOSE_ICON, tabNameProcess))))
+        .click();
+  }
 
+  /** click on the 'Hide' icon of the 'Processes' */
+  public void closeProcessesArea() {
+    redrawDriverWait.until(visibilityOf(hideConsolesIcon)).click();
+  }
 
-    /**
-     * click on the 'Hide' icon of the 'Processes'
-     */
-    public void closeProcessesArea() {
-        redrawDriverWait.until(visibilityOf(hideConsolesIcon)).click();
-    }
+  /** click on open ssh terminal button in the consoles widget and wait opening terminal */
+  public void clickOnOpenSshTerminalBtn() {
+    redrawDriverWait.until(visibilityOf(sshTerminalBtn)).click();
+    waitIsCommandConsoleOpened();
+  }
 
-    /**
-     * click on open ssh terminal button in the consoles widget and wait opening terminal
-     */
-    public void clickOnOpenSshTerminalBtn() {
-        redrawDriverWait.until(visibilityOf(sshTerminalBtn)).click();
-        waitIsCommandConsoleOpened();
-    }
+  /** wait opening 'Command console widget' */
+  public void waitIsCommandConsoleOpened() {
+    redrawDriverWait.until(visibilityOf(consoleContainer));
+  }
 
-    /**
-     * wait opening 'Command console widget'
-     */
-    public void waitIsCommandConsoleOpened() {
-        redrawDriverWait.until(visibilityOf(consoleContainer));
-    }
+  /**
+   * wait opening 'Command console widget'
+   *
+   * @param definedTimeout timeout in seconds defined with user
+   */
+  public void waitIsCommandConsoleOpened(int definedTimeout) {
+    new WebDriverWait(seleniumWebDriver, definedTimeout)
+        .until(ExpectedConditions.visibilityOf(consoleContainer));
+  }
 
-    /**
-     * wait opening 'Command console widget'
-     *
-     * @param definedTimeout
-     *         timeout in seconds defined with user
-     */
-    public void waitIsCommandConsoleOpened(int definedTimeout) {
-        new WebDriverWait(seleniumWebDriver, definedTimeout).until(ExpectedConditions.visibilityOf(consoleContainer));
-    }
+  /** wait expected text into 'Command console' */
+  public void waitExpectedTextIntoConsole(String expectedText) {
+    updateProjDriverWait.until(textToBePresentInElement(consoleContainer, expectedText));
+  }
 
-    /**
-     * wait expected text into 'Command console'
-     */
-    public void waitExpectedTextIntoConsole(String expectedText) {
-        updateProjDriverWait.until(textToBePresentInElement(consoleContainer, expectedText));
-    }
+  /** get visible text from command console */
+  public String getVisibleTextFromCommandConsole() {
+    return redrawDriverWait.until(visibilityOf(consoleContainer)).getText();
+  }
 
-    /**
-     * get visible text from command console
-     */
-    public String getVisibleTextFromCommandConsole() {
-        return redrawDriverWait.until(visibilityOf(consoleContainer)).getText();
-    }
+  /**
+   * wait expected text into 'Command console'
+   *
+   * @param expectedText expected messaje in concole
+   * @param definedTimeout timeout in seconds defined with user
+   */
+  public void waitExpectedTextIntoConsole(String expectedText, int definedTimeout) {
+    new WebDriverWait(seleniumWebDriver, definedTimeout)
+        .until(textToBePresentInElement(consoleContainer, expectedText));
+  }
 
-    /**
-     * wait expected text into 'Command console'
-     *
-     * @param expectedText
-     *         expected messaje in concole
-     * @param definedTimeout
-     *         timeout in seconds defined with user
-     */
-    public void waitExpectedTextIntoConsole(String expectedText, int definedTimeout) {
-        new WebDriverWait(seleniumWebDriver, definedTimeout).until(textToBePresentInElement(consoleContainer, expectedText));
-    }
+  /** wait a preview url into 'Consoles' */
+  public void waitPreviewUrlIsPresent() {
+    redrawDriverWait.until(visibilityOf(previewUrl));
+  }
 
+  /** wait a preview url is not present into 'Consoles' */
+  public void waitPreviewUrlIsNotPresent() {
+    redrawDriverWait.until(invisibilityOfElementLocated(By.xpath(PREVIEW_URL)));
+  }
 
-    /**
-     * wait a preview url into 'Consoles'
-     */
-    public void waitPreviewUrlIsPresent() {
-        redrawDriverWait.until(visibilityOf(previewUrl));
-    }
+  /** return state open/or close of processes main widget */
+  public boolean processesMainAreaIsOpen() {
+    return processesMainArea.isDisplayed();
+  }
 
-    /**
-     * wait a preview url is not present into 'Consoles'
-     */
-    public void waitPreviewUrlIsNotPresent() {
-        redrawDriverWait.until(invisibilityOfElementLocated(By.xpath(PREVIEW_URL)));
-    }
-
-    /**
-     * return state open/or close of processes main widget
-     */
-    public boolean processesMainAreaIsOpen() {
-        return processesMainArea.isDisplayed();
-    }
-
-    /**
-     * click on the maximize panel icon
-     */
-    public void clickOnMaximizePanelIcon() {
-        redrawDriverWait.until(elementToBeClickable(By.xpath(MAXIMIZE_PANEL_ICON))).click();
-    }
-
+  /** click on the maximize panel icon */
+  public void clickOnMaximizePanelIcon() {
+    redrawDriverWait.until(elementToBeClickable(By.xpath(MAXIMIZE_PANEL_ICON))).click();
+  }
 }

@@ -1,13 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2012-2017 Codenvy, S.A.
+/*
+ * Copyright (c) 2012-2017 Red Hat, Inc.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   Codenvy, S.A. - initial API and implementation
- *******************************************************************************/
+ *   Red Hat, Inc. - initial API and implementation
+ */
 package org.eclipse.che.selenium.core.workspace;
 
 /**
@@ -16,14 +16,14 @@ package org.eclipse.che.selenium.core.workspace;
  * @author Dmytro Nochevnov
  */
 public class WorkspaceTemplate {
-    public static final String ECLIPSE_CPP_GCC     = "eclipse_cpp_gcc.json";
-    public static final String ECLIPSE_NODEJS      = "eclipse_nodejs.json";
-    public static final String ECLIPSE_PHP         = "eclipse_php.json";
-    public static final String CODENVY_DEBIAN_JRE  = "codenvy_debian_jre.json";
-    public static final String CODENVY_UBUNTU_JDK8 = "codenvy_ubuntu_jdk8.json";
-    public static final String UBUNTU              = "ubuntu.json";
+  public static final String ECLIPSE_CPP_GCC = "eclipse_cpp_gcc.json";
+  public static final String ECLIPSE_NODEJS = "eclipse_nodejs.json";
+  public static final String ECLIPSE_PHP = "eclipse_php.json";
+  public static final String CODENVY_DEBIAN_JRE = "codenvy_debian_jre.json";
+  public static final String CODENVY_UBUNTU_JDK8 = "codenvy_ubuntu_jdk8.json";
+  public static final String UBUNTU = "ubuntu.json";
 
-    public static final String DEFAULT = CODENVY_UBUNTU_JDK8;
+  public static final String DEFAULT = CODENVY_UBUNTU_JDK8;
 
-    private WorkspaceTemplate() { }
+  private WorkspaceTemplate() {}
 }

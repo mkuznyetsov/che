@@ -1,13 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2012-2017 Codenvy, S.A.
+/*
+ * Copyright (c) 2012-2017 Red Hat, Inc.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   Codenvy, S.A. - initial API and implementation
- *******************************************************************************/
+ *   Red Hat, Inc. - initial API and implementation
+ */
 package org.eclipse.che.selenium.core.action;
 
 import org.openqa.selenium.WebDriver;
@@ -17,22 +17,23 @@ import org.openqa.selenium.interactions.SendKeysAction;
 import org.openqa.selenium.internal.Locatable;
 
 /**
- * Abstract class for platform based actions. Generify the interface for using selenium action independently from the OS on which
- * tests are running.
+ * Abstract class for platform based actions. Generify the interface for using selenium action
+ * independently from the OS on which tests are running.
  *
  * @author Vlad Zhukovskyi
  */
 public abstract class PlatformBasedActions extends Actions {
 
-    public PlatformBasedActions(WebDriver driver) {
-        super(driver);
-    }
+  public PlatformBasedActions(WebDriver driver) {
+    super(driver);
+  }
 
-    @Override
-    public Actions sendKeys(WebElement element, CharSequence... keysToSend) {
-        action.addAction(new SendKeysAction(keyboard, mouse, (Locatable)element, modifyCharSequence(keysToSend)));
-        return this;
-    }
+  @Override
+  public Actions sendKeys(WebElement element, CharSequence... keysToSend) {
+    action.addAction(
+        new SendKeysAction(keyboard, mouse, (Locatable) element, modifyCharSequence(keysToSend)));
+    return this;
+  }
 
-    protected abstract CharSequence[] modifyCharSequence(CharSequence... keysToSend);
+  protected abstract CharSequence[] modifyCharSequence(CharSequence... keysToSend);
 }

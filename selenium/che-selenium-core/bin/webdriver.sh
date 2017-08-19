@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# Copyright (c) 2012-2016 Codenvy, S.A.
+# Copyright (c) 2012-2017 Red Hat, Inc.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
 # http://www.eclipse.org/legal/epl-v10.html
 #
 # Contributors:
-#   Codenvy, S.A. - initial API and implementation
+#   Red Hat, Inc. - initial API and implementation
 #
 
 # we need to have at least 2 threads for tests which start several WebDriver instances at once, for example, tests of File Watcher
@@ -95,8 +95,8 @@ readonly TEST_INCLUSION_STABLE_AND_UNSTABLE="STABLE_AND_UNSTABLE"
 readonly TEST_INCLUSION_SINGLE_TEST="SINGLE_TEST"
 
 readonly STABLE_MSG="stable tests"
-readonly UNSTABLE_MSG="unstable/failed tests"
-readonly STABLE_AND_UNSTABLE_MSG="stable and unstable/failed tests"
+readonly UNSTABLE_MSG="unstable tests"
+readonly STABLE_AND_UNSTABLE_MSG="stable and unstable tests"
 readonly SINGLE_TEST_MSG="single test/package"
 
 PRODUCT_PROTOCOL="http"
@@ -105,7 +105,6 @@ PRODUCT_HOST=$(detectDockerInterfaceIp)
 unset TEST_INCLUSION
 unset DEBUG_OPTIONS
 unset MAVEN_OPTIONS
-unset FINAL_REPORT
 unset TMP_SUITE_PATH
 unset ORIGIN_TESTS_SCOPE
 
@@ -368,9 +367,16 @@ prepareTestSuite() {
     fi
 }
 
+# returns 0 if suite does have "<exclude" section, or 1 otherwise
+suiteContainsUnstableTests() {
+    local suitePath=${ORIGIN_TESTS_SCOPE:11}
+    grep -oe "<exclude" ${suitePath}  > /dev/null
+    echo $?
+}
+
 printHelp() {
     local usage="
-Usage: ./${CALLER} [-Mmode] [options] [tests scope]
+Usage: ${CALLER} [-Mmode] [options] [tests scope]
 
 Options:
     --http                              Use 'http' protocol to connect to product
@@ -413,26 +419,26 @@ Other options:
 
 HOW TO of usage:
     Test Eclipse Che assembly:
-        ./${CALLER}
+        ${CALLER}
 
     Test Eclipse Che assembly and automatically rerun failing tests:
-        ./${CALLER} --rerun
+        ${CALLER} --rerun
 
     Run single test or package of tests:
-        ./${CALLER} <...> --test=<TEST>
+        ${CALLER} <...> --test=<TEST>
 
     Run suite:
-        ./${CALLER} <...> --suite=<PATH_TO_SUITE>
+        ${CALLER} <...> --suite=<PATH_TO_SUITE>
 
     Rerun failed tests:
-        ./${CALLER} <...> --failed-tests
-        ./${CALLER} <...> --failed-tests --rerun
+        ${CALLER} <...> --failed-tests
+        ${CALLER} <...> --failed-tests --rerun
 
     Debug selenium test:
-        ./${CALLER} -Mlocal --test=<TEST> --debug
+        ${CALLER} -Mlocal --test=<TEST> --debug
 
     Analyse tests results:
-        ./${CALLER} --compare-with-ci [CI job number]
+        ${CALLER} --compare-with-ci [CI job number]
 "
 
     printf "%s" "${usage}"
@@ -560,13 +566,13 @@ analyseTestsResults() {
     if [[ ${TEST_INCLUSION} == ${TEST_INCLUSION_STABLE} ]]; then
         echo -e "[TEST] "${YELLOW}"STABLE TESTS EXECUTION RESULTS ANALYSE:"${NO_COLOUR}
     elif [[ ${TEST_INCLUSION} == ${TEST_INCLUSION_STABLE_AND_UNSTABLE} ]]; then
-        echo -e "[TEST] "${YELLOW}"STABLE/UNSTABLE/FAILED TESTS EXECUTION RESULTS ANALYSE:"${NO_COLOUR}
+        echo -e "[TEST] "${YELLOW}"STABLE/UNSTABLE TESTS EXECUTION RESULTS ANALYSE:"${NO_COLOUR}
     else
         echo -e "[TEST] "${YELLOW}"RESULTS ANALYSE:"${NO_COLOUR}
     fi
 
     echo "[TEST]"
-    echo -e "[TEST] Command line: ${BLUE}./${CALLER} $@${NO_COLOUR}"
+    echo -e "[TEST] Command line: ${BLUE}${CUR_DIR}/${CALLER} $@${NO_COLOUR}"
     echo "[TEST]"
 
     if [[ ${COMPARE_WITH_CI} == true ]]; then
@@ -649,15 +655,15 @@ printProposals() {
     if [[ ! ${total} -eq 0 ]]; then
         echo "[TEST]"
         echo "[TEST] Try rerun all tests:"
-        echo -e "[TEST] \t${BLUE}./${CALLER} ${cmd} --threads=${THREADS} -Mlocal --failed-tests${NO_COLOUR}"
-        echo -e "[TEST] \t${BLUE}./${CALLER} ${cmd} --threads=${THREADS} -Mgrid --failed-tests${NO_COLOUR}"
+        echo -e "[TEST] \t${BLUE}${CUR_DIR}/${CALLER} ${cmd} --threads=${THREADS} -Mlocal --failed-tests${NO_COLOUR}"
+        echo -e "[TEST] \t${BLUE}${CUR_DIR}/${CALLER} ${cmd} --threads=${THREADS} -Mgrid --failed-tests${NO_COLOUR}"
 
         echo "[TEST]"
         if [[  ${total} -lt 50 ]]; then
             echo "[TEST] Or run them one by one:"
             for r in $(echo ${regressions[@]} | tr ' ' '\n' | sed  's/\(.*\)[.][^.]*/\1/' | sort | uniq)
             do
-                echo -e "[TEST] \t${BLUE}./${CALLER} ${cmd} -Mlocal --test=${r}${NO_COLOUR}"
+                echo -e "[TEST] \t${BLUE}${CUR_DIR}/${CALLER} ${cmd} -Mlocal --test=${r}${NO_COLOUR}"
             done
             echo "[TEST]"
             echo -e "[TEST] You might need add ${BLUE}--debug${NO_COLOUR} option for debugging purpose."
@@ -666,10 +672,10 @@ printProposals() {
 
     echo "[TEST]"
     echo "[TEST] To compare tests results with the latest CI job"
-    echo -e "[TEST] \t${BLUE}./${CALLER} ${cmd} --compare-with-ci${NO_COLOUR}"
+    echo -e "[TEST] \t${BLUE}${CUR_DIR}/${CALLER} ${cmd} --compare-with-ci${NO_COLOUR}"
     echo "[TEST]"
     echo "[TEST] To compare tests results with results of the specific CI job"
-    echo -e "[TEST] \t${BLUE}./${CALLER} ${cmd} --compare-with-ci CI_JOB_NUMBER${NO_COLOUR}"
+    echo -e "[TEST] \t${BLUE}${CUR_DIR}/${CALLER} ${cmd} --compare-with-ci CI_JOB_NUMBER${NO_COLOUR}"
     echo "[TEST]"
     echo "[TEST]"
 }
@@ -712,7 +718,7 @@ rerunTests() {
         analyseTestsResults $@
         generateFailSafeReport
         printProposals $@
-        preserveAllReports
+        storeTestReport
         printElapsedTime
 
         echo "[TEST]"
@@ -787,7 +793,7 @@ generateFailSafeReport () {
         ${TEST_INCLUSION_STABLE} )
             echo -e "[TEST] ${YELLOW}STABLE TESTS EXECUTION REPORT:${NO_COLOUR}" ;;
         ${TEST_INCLUSION_UNSTABLE} )
-            echo -e "[TEST] ${YELLOW}UNSTABLE/FAILED TESTS EXECUTION REPORT:${NO_COLOUR}" ;;
+            echo -e "[TEST] ${YELLOW}UNSTABLE TESTS EXECUTION REPORT:${NO_COLOUR}" ;;
         ${TEST_INCLUSION_STABLE_AND_UNSTABLE} | ${TEST_INCLUSION_SINGLE_TEST} )
             echo -e "[TEST] ${YELLOW}REPORT:${NO_COLOUR}" ;;
     esac
@@ -797,7 +803,7 @@ generateFailSafeReport () {
         echo "[TEST] Either maven surefire report plugin failed or tests haven't been run at all."
         echo "[TEST]"
         echo "[TEST] To regenerate report manually use the command below:"
-        echo -e "[TEST] \t${BLUE}./${CALLER} --compare-with-ci${NO_COLOUR}"
+        echo -e "[TEST] \t${BLUE}${CUR_DIR}/${CALLER} --compare-with-ci${NO_COLOUR}"
         echo "[TEST]"
         echo "[TEST]"
         exit 1
@@ -831,48 +837,22 @@ generateFailSafeReport () {
     echo "[TEST]"
 }
 
-# preserves all generated reports
-preserveAllReports() {
-    if [[ -n $1 ]] && [[ $1 == "combine" ]]; then
-        # pack stable and unstable/failed tests execution results into the one archive in "stable" and "unstable-and-failed" directories respectively
-        local stableTestReportTmp=${TMP_DIR}/webdriver/tmp/stable
-        local unstableTestReportTmp=${TMP_DIR}/webdriver/tmp/unstable-and-failed
+storeTestReport() {
+    mkdir -p ${TMP_DIR}/webdriver
+    local report="${TMP_DIR}/webdriver/report$(date +%s).zip"
 
-        mkdir -p ${unstableTestReportTmp}
-        mkdir -p ${stableTestReportTmp}
-
-        [[ -a target/screenshots ]] && cp -r target/screenshots ${unstableTestReportTmp}
-        [[ -a target/site ]] && cp -r target/site ${unstableTestReportTmp}
-        cp -r target/failsafe-reports ${unstableTestReportTmp}
-        cp target/log ${unstableTestReportTmp}
-        mkdir ${unstableTestReportTmp}/suite && cp ${TMP_SUITE_PATH} ${unstableTestReportTmp}/suite
-
-        unzip -q ${FINAL_REPORT} -d ${stableTestReportTmp}
-        rm -f ${FINAL_REPORT}
-
-        cd ${stableTestReportTmp}/..
-        zip -qr ${FINAL_REPORT} stable unstable-and-failed
-
-        rm -rf ${TMP_DIR}/webdriver/tmp
-
-        echo -e "[TEST] Stable/Unstable/Failed tests execution report: ${BLUE}${FINAL_REPORT}${NO_COLOUR}"
-        echo "[TEST]"
-    else
-        mkdir -p ${TMP_DIR}/webdriver
-        FINAL_REPORT="${TMP_DIR}/webdriver/report$(date +%s).zip"
-
-        rm -rf ${TMP_DIR}/webdriver/tmp
-        mkdir target/suite
-        if [[ -f ${TMP_SUITE_PATH} ]]; then
-            cp ${TMP_SUITE_PATH} target/suite;
-        fi
-        zip -qr ${FINAL_REPORT} target/screenshots target/site target/failsafe-reports target/log target/bin target/suite
-        echo -e "[TEST] Tests results and reports are saved to ${BLUE}${FINAL_REPORT}${NO_COLOUR}"
-        echo "[TEST]"
-        echo "[TEST] If target directory is accidentally cleaned it is possible to restore it: "
-        echo -e "[TEST] \t${BLUE}rm -rf ${CUR_DIR}/target && unzip -q ${FINAL_REPORT} -d ${CUR_DIR}${NO_COLOUR}"
-        echo "[TEST]"
+    rm -rf ${TMP_DIR}/webdriver/tmp
+    mkdir target/suite
+    if [[ -f ${TMP_SUITE_PATH} ]]; then
+        cp ${TMP_SUITE_PATH} target/suite;
     fi
+    zip -qr ${report} target/screenshots target/site target/failsafe-reports target/log target/bin target/suite
+
+    echo -e "[TEST] Tests results and reports are saved to ${BLUE}${report}${NO_COLOUR}"
+    echo "[TEST]"
+    echo "[TEST] If target directory is accidentally cleaned it is possible to restore it: "
+    echo -e "[TEST] \t${BLUE}rm -rf ${CUR_DIR}/target && unzip -q ${report} -d ${CUR_DIR}${NO_COLOUR}"
+    echo "[TEST]"
 }
 
 checkBuild() {
@@ -930,22 +910,34 @@ fi
 analyseTestsResults $@
 generateFailSafeReport
 printProposals $@
-preserveAllReports
+storeTestReport
 printElapsedTime
 
-if [[ ${TESTS_SCOPE} =~ -DrunSuite ]] && [[ $(fetchFailedTestsNumber) == 0 ]] && [[ ${COMPARE_WITH_CI} == false ]] && [[ ${TEST_INCLUSION} == ${TEST_INCLUSION_STABLE} ]]; then
+if [[ ${TESTS_SCOPE} =~ -DrunSuite ]] \
+      && [[ $(fetchFailedTestsNumber) == 0 ]] \
+      && [[ ${COMPARE_WITH_CI} == false ]] \
+      && [[ ${TEST_INCLUSION} == ${TEST_INCLUSION_STABLE} ]]; then
+
+    if [[ $(suiteContainsUnstableTests) != 0 ]]; then
+        echo "[TEST]"
+        echo "[TEST] Test suite '${ORIGIN_TESTS_SCOPE:11}' doesn't have tests which are marked as unstable."
+        echo "[TEST] No more tests will be run."
+        echo "[TEST]"
+        exit
+    fi
+
     TEST_INCLUSION=${TEST_INCLUSION_UNSTABLE}
     START_TIME=$(date +%s)
 
     echo "[TEST]"
     echo "[TEST]"
     echo -e "[TEST] ${YELLOW}---------------------------------------------------${NO_COLOUR}"
-    echo -e "[TEST] ${YELLOW} RUN UNSTABLE/FAILED TESTS${NO_COLOUR}"
+    echo -e "[TEST] ${YELLOW} RUN UNSTABLE TESTS${NO_COLOUR}"
     echo -e "[TEST] ${YELLOW}---------------------------------------------------${NO_COLOUR}"
     echo "[TEST]"
 
     testProduct $@
     generateFailSafeReport
-    preserveAllReports combine
+    storeTestReport
     printElapsedTime
 fi
