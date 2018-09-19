@@ -13,7 +13,6 @@ package org.eclipse.che.core.db.mysql.jpa.eclipselink;
 
 import java.sql.SQLException;
 import org.eclipse.che.core.db.jpa.DuplicateKeyException;
-import org.eclipse.che.core.db.jpa.IntegrityConstraintViolationException;
 import org.eclipse.persistence.exceptions.DatabaseException;
 import org.eclipse.persistence.exceptions.ExceptionHandler;
 

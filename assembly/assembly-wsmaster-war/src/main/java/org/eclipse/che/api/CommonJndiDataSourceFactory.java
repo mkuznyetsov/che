@@ -31,7 +31,7 @@ public class CommonJndiDataSourceFactory implements ObjectFactory {
     delegate =
         Boolean.valueOf(System.getenv("CHE_MULTIUSER"))
             ? new PostgreSQLJndiDataSourceFactory()
-            : new H2SQLJndiDataSourceFactory();
+            : new ();
   }
 
   @Override
